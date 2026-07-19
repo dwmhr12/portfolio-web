@@ -8,9 +8,9 @@ export const profile = {
   name: 'Dewi Maharani',
   initials: 'DM', // dipakai di logo pojok kiri atas
   greeting: 'Hello, I am Rani',
-  shortTagline: 'Business Analysis • System Design • Data-Driven Thinking',
+  shortTagline: 'Business Analysis • System Design • Data-Driven Solutions • UI/UX Design',
 
-  role: 'System Analyst • Data Analyst • Data Engineer',
+  role: 'System Analyst • Data Engineer • UI/UX Design',
   tagline: '',
 
   // Ditampilkan besar di halaman Home, di kotak biru (contoh: "PORTOFOLIO")
@@ -20,9 +20,9 @@ export const profile = {
   // Hashtag kecil di halaman Home (kiri atas)
   tags: ['#SystemAnalyst', '#DataEngineering', '#AIEngineer', '#UIUXDesigner'],
 
-  aboutTitle: 'Business & System Analyst',
+  aboutTitle: 'Business & System Analyst | Data Engineering Enthusiast',
   // Paragraf singkat tentang kamu (2-4 kalimat cukup)
-  about: `I enjoy understanding how a business process works before thinking about the solution. That's why I'm interested in business analysis and system design. Through academic and personal projects, I've gained experience in requirement analysis, business process modeling, BRD and SRS documentation, UML design, database design, and UI/UX prototyping with Figma. I enjoy working at the intersection of business, systems, and data to create practical solutions`,
+  about: `I enjoy understanding how business processes work before designing solutions. That's why I'm interested in business analysis and system design. Through academic and personal projects, I've gained experience in requirement analysis, business process modeling, BRD and SRS documentation, UML design, database design, data-driven solutions, and UI/UX prototyping with Figma. I enjoy working at the intersection of business, systems, and data to create practical solutions.`,
 
   photoUrl: '/rani.jpeg', // isi link foto kamu (atau taruh file di /public lalu isi "/nama-file.jpg")
   location: 'Surabaya, Indonesia',

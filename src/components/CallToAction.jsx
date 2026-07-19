@@ -1,4 +1,4 @@
-import { Mail, Link as LinkIcon, Code2, Download } from 'lucide-react'
+import { Mail, Link as LinkIcon, Code2 } from 'lucide-react'
 import { profile } from '../data/profile'
 import Reveal from './Reveal'
 
@@ -57,24 +57,6 @@ export default function CallToAction() {
             </Reveal>
           )
         })}
-
-        {profile.cvUrl && (
-          <Reveal delay={0.4}>
-            <a
-              href={profile.cvUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-col gap-3 rounded-xl2 bg-primary p-4 text-left text-white transition-transform duration-300 hover:-translate-y-1 hover:opacity-90"
-            >
-              <Download size={18} />
-              <span className="text-xs">
-                Unduh
-                <br />
-                <span className="font-medium">CV Saya</span>
-              </span>
-            </a>
-          </Reveal>
-        )}
       </div>
     </div>
   )

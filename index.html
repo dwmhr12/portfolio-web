@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Portofolio — System Analyst & Data Analyst/Engineer" />
+    <title>Dewi Maharani — Portofolio</title>
+
+    <!-- ============ Open Graph (preview kartu di LinkedIn/WA/dll) ============ -->
+    <!-- GANTI "https://domainkamu.com" di bawah dengan URL asli kamu setelah deploy -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://domainkamu.com" />
+    <meta property="og:title" content="Nama Kamu — System Analyst & Data Analyst Portfolio" />
+    <meta
+      property="og:description"
+      content="Portofolio proyek analisis sistem, analisis data, dan rekayasa data — lengkap dengan studi kasus problem, proses, dan hasil."
+    />
+    <meta property="og:image" content="https://domainkamu.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="id_ID" />
+
+    <!-- ============ Twitter/X Card (kartu serupa kalau di-share ke X) ============ -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Nama Kamu — System Analyst & Data Analyst Portfolio" />
+    <meta
+      name="twitter:description"
+      content="Portofolio proyek analisis sistem, analisis data, dan rekayasa data — lengkap dengan studi kasus problem, proses, dan hasil."
+    />
+    <meta name="twitter:image" content="https://domainkamu.com/og-image.png" />
+
+    <!-- Font: Space Grotesk (judul tegas), Inter (isi) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      // Cegah "flash" salah tema saat halaman pertama kali dimuat:
+      // baca preferensi tersimpan sebelum React jalan.
+      try {
+        const saved = localStorage.getItem('theme')
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (saved === 'dark' || (!saved && prefersDark)) {
+          document.documentElement.classList.add('dark')
+        }
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

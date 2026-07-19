@@ -18,7 +18,7 @@ export const profile = {
   heroYear: '2026',
 
   // Hashtag kecil di halaman Home (kiri atas)
-  tags: ['#System_Analyst', '#Data_Analyst', '#Data_Engineering', '#SQL'],
+  tags: ['#SystemAnalyst', '#DataEngineering', '#AIEngineer', '#UIUXDesigner'],
 
   aboutTitle: 'Business & System Analyst',
   // Paragraf singkat tentang kamu (2-4 kalimat cukup)

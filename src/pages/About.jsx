@@ -1,4 +1,4 @@
-import { Mail, Link as LinkIcon, Code2, Download, TrendingUp } from 'lucide-react'
+import { Mail, Link as LinkIcon, Code2, TrendingUp, Eye } from 'lucide-react'
 import { profile } from '../data/profile'
 import Reveal from '../components/Reveal'
 
@@ -32,10 +32,27 @@ export default function About() {
         {/* Kartu "About me" */}
         <div className="flex flex-col justify-between gap-6">
           <Reveal delay={0.1} className="rounded-xl2 border border-line bg-card p-8 dark:border-line-dark dark:bg-card-dark sm:p-10">
-            <p className="font-display text-3xl font-semibold text-primary dark:text-primary-dark sm:text-4xl">
-              {profile.greeting}
-            </p>
-            <p className="mt-2 text-base text-muted dark:text-muted-dark">{profile.shortTagline}</p>
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="font-display text-3xl font-semibold text-primary dark:text-primary-dark sm:text-4xl">
+                  {profile.greeting}
+                </p>
+                <p className="mt-2 text-base text-muted dark:text-muted-dark">{profile.shortTagline}</p>
+              </div>
+
+              {profile.cvUrl && (
+                <a
+                  href={profile.cvUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex shrink-0 items-center gap-2 rounded-full border border-line px-4 py-2 text-sm font-medium text-ink transition hover:-translate-y-0.5 hover:bg-primary/10 dark:border-line-dark dark:text-ink-dark"
+                >
+                  <Eye size={16} />
+                  View CV
+                </a>
+              )}
+            </div>
+
             <hr className="my-6 border-line dark:border-line-dark" />
             <div className="flex items-start justify-between gap-6">
               <div>
@@ -88,24 +105,6 @@ export default function About() {
                 </Reveal>
               )
             })}
-
-            {profile.cvUrl && (
-              <Reveal delay={0.5}>
-                <a
-                  href={profile.cvUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex flex-col gap-3 rounded-xl2 border border-line bg-card p-4 text-ink transition-transform hover:-translate-y-1 dark:border-line-dark dark:bg-card-dark dark:text-ink-dark"
-                >
-                  <Download size={18} />
-                  <span className="text-xs">
-                    Unduh
-                    <br />
-                    <span className="font-medium">CV Saya</span>
-                  </span>
-                </a>
-              </Reveal>
-            )}
           </div>
         </div>
       </div>

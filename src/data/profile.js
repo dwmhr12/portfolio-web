@@ -20,9 +20,9 @@ export const profile = {
   // Hashtag kecil di halaman Home (kiri atas)
   tags: ['#SystemAnalyst', '#DataEngineering', '#AIEngineer', '#UIUXDesigner'],
 
-  aboutTitle: 'Business & System Analyst | Data Engineering Enthusiast',
+  aboutTitle: 'Business & System Analyst',
   // Paragraf singkat tentang kamu (2-4 kalimat cukup)
-  about: `I enjoy understanding how business processes work before designing solutions. That's why I'm interested in business analysis and system design. Through academic and personal projects, I've gained experience in requirement analysis, business process modeling, BRD and SRS documentation, UML design, database design, data-driven solutions, and UI/UX prototyping with Figma. I enjoy working at the intersection of business, systems, and data to create practical solutions.`,
+  about: `I enjoy understanding how a business process works before thinking about the solution. That's why I'm interested in business analysis and system design. Through academic and personal projects, I've gained experience in requirement analysis, business process modeling, BRD and SRS documentation, UML design, database design, and UI/UX prototyping with Figma. I enjoy working at the intersection of business, systems, and data to create practical solutions`,
 
   photoUrl: '/rani.jpeg', // isi link foto kamu (atau taruh file di /public lalu isi "/nama-file.jpg")
   location: 'Surabaya, Indonesia',

@@ -8,7 +8,7 @@ export const profile = {
   name: 'Dewi Maharani',
   initials: 'DM', // dipakai di logo pojok kiri atas
   greeting: 'Hello, I am Rani',
-  shortTagline: 'Business Analysis • System Design • Data-Driven Solutions • UI/UX Design',
+  shortTagline: 'Business • Systems • Data • Design',
 
   role: 'System Analyst • Data Engineer • UI/UX Design',
   tagline: '',

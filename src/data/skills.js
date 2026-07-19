@@ -1,104 +1,104 @@
 // src/data/skills.js
-// Balik ke struktur awal: 2 kelompok (Core Competencies & Tools).
-// Bedanya, sekarang tiap item bukan cuma string, tapi object
-// { name, description } — `description`-nya dipakai buat tooltip
-// pas di-hover di halaman Resume. Tinggal tambah/ubah/hapus item
-// di array masing-masing.
+// English version: 2 groups (Core Competencies & Tools).
+// Each item uses an object structure
+// { name, description } — the `description` is used for tooltip
+// when hovering on the Resume page.
+// Add, update, or remove items inside each array as needed.
 
 export const coreCompetencies = [
   {
     name: 'Business Analysis',
-    description: 'Menerjemahkan kebutuhan bisnis jadi solusi yang bisa dieksekusi tim teknis.',
+    description: 'Translating business needs into actionable solutions for technical teams.',
   },
   {
     name: 'System Analysis',
-    description: 'Menganalisis alur sistem existing buat menemukan celah dan peluang perbaikan.',
+    description: 'Analyzing existing system workflows to identify gaps and improvement opportunities.',
   },
   {
     name: 'Requirement Gathering',
-    description: 'Menggali kebutuhan stakeholder lewat wawancara, workshop, dan observasi.',
+    description: 'Eliciting stakeholder needs through interviews, workshops, and observations.',
   },
   {
     name: 'Business Process Modeling',
-    description: 'Memetakan proses bisnis end-to-end pakai notasi standar seperti BPMN.',
+    description: 'Mapping end-to-end business processes using standard notations such as BPMN.',
   },
   {
     name: 'BRD & SRS Documentation',
-    description: 'Menyusun dokumen kebutuhan bisnis & sistem yang jadi acuan pengembangan.',
+    description: 'Creating business and system requirement documents as development references.',
   },
   {
     name: 'UML Modeling',
-    description: 'Menggambarkan struktur & perilaku sistem lewat diagram UML.',
+    description: 'Representing system structure and behavior through UML diagrams.',
   },
   {
     name: 'Database Design',
-    description: 'Merancang skema database yang efisien dan sesuai kebutuhan bisnis.',
+    description: 'Designing efficient database schemas aligned with business requirements.',
   },
   {
     name: 'Data Analysis',
-    description: 'Mengolah data mentah jadi insight yang mendukung pengambilan keputusan.',
+    description: 'Transforming raw data into insights that support decision-making.',
   },
   {
     name: 'UI/UX Prototyping',
-    description: 'Membuat wireframe & prototype interaktif sebelum masuk development.',
+    description: 'Creating wireframes and interactive prototypes before development.',
   },
 ]
 
 export const tools = [
   {
     name: 'Microsoft Word',
-    description: 'Menyusun dokumen laporan, proposal, dan dokumentasi formal.',
+    description: 'Creating formal reports, proposals, and technical documentation.',
   },
   {
     name: 'Python',
-    description: 'Bahasa pemrograman untuk analisis data, automasi, dan scripting.',
+    description: 'Programming language for data analysis, automation, and scripting.',
   },
   {
     name: 'SQL',
-    description: 'Query dan mengelola data dari relational database.',
+    description: 'Writing queries and managing data in relational databases.',
   },
   {
     name: 'MySQL',
-    description: 'Sistem manajemen database relasional open-source.',
+    description: 'Open-source relational database management system.',
   },
   {
     name: 'SAP S/4HANA',
-    description: 'Sistem ERP enterprise untuk proses bisnis yang terintegrasi.',
+    description: 'Enterprise ERP system for integrated business processes.',
   },
   {
     name: 'Power BI',
-    description: 'Membuat dashboard & visualisasi data interaktif.',
+    description: 'Creating interactive dashboards and data visualizations.',
   },
   {
     name: 'Apache NiFi',
-    description: 'Mengotomasi alur perpindahan dan transformasi data antar sistem.',
+    description: 'Automating data flow, integration, and transformation between systems.',
   },
   {
     name: 'Milvus',
-    description: 'Vector database untuk pencarian data berbasis kemiripan (similarity search).',
+    description: 'Vector database for similarity-based search and retrieval.',
   },
   {
     name: 'Figma',
-    description: 'Merancang UI/UX dan prototipe interaktif secara kolaboratif.',
+    description: 'Designing UI/UX interfaces and interactive prototypes collaboratively.',
   },
   {
     name: 'Canva',
-    description: 'Membuat materi visual & desain grafis dengan cepat.',
+    description: 'Creating visual content and graphic designs efficiently.',
   },
   {
     name: 'Draw.io',
-    description: 'Menggambar diagram alur, flowchart, dan arsitektur sistem.',
+    description: 'Creating flowcharts, system diagrams, and architecture models.',
   },
   {
     name: 'BPMN.io',
-    description: 'Membuat diagram proses bisnis berbasis notasi BPMN.',
+    description: 'Creating business process diagrams using BPMN notation.',
   },
   {
     name: 'Git',
-    description: 'Version control untuk melacak perubahan kode secara terstruktur.',
+    description: 'Version control system for managing code changes systematically.',
   },
   {
     name: 'GitHub',
-    description: 'Platform kolaborasi dan hosting kode berbasis Git.',
+    description: 'Platform for code collaboration and Git-based repository hosting.',
   },
 ]

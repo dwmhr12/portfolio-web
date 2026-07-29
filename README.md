@@ -1,17 +1,18 @@
 # Portfolio Web
 
-Personal portfolio website built with **React + Vite + Tailwind CSS** to showcase my experience, skills, and projects in **System Analyst, Data Analyst, and Data Engineering** roles.
+Personal portfolio website built with **React + Vite + Tailwind CSS** to showcase my experience, skills, and projects in **Business Analysis, System Analyst, Data Analyst, and Data Engineering** roles.
 
 The website includes categorized project filtering to highlight different career tracks and provides a responsive interface with light/dark mode support.
 
 ## 🌐 Live Demo
 
-🔗 Portfolio Website: https://your-vercel-url.vercel.app
+🔗 Portfolio Website: https://dwmhr.vercel.app/
 
 ## ✨ Features
 
 - Responsive portfolio website
 - Project showcase with category filtering:
+  - Business Analysis
   - System Analyst
   - Data Analyst
   - Data Engineer
@@ -144,7 +145,7 @@ GitHub: https://github.com/dwmhr12
 
 LinkedIn: https://www.linkedin.com/in/dwmhr/
 
-Portfolio Website: https://dwmhr.vercel.app/)
+Portfolio Website: https://dwmhr.vercel.app/
 
 ---
 

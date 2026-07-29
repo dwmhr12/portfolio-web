@@ -1,99 +1,151 @@
-# Portofolio Web
+# Portfolio Web
 
-Website portofolio dengan React + Vite + Tailwind CSS. Ada fitur **filter proyek**
-berdasarkan bidang (System Analyst / Data Analyst / Data Engineer) sesuai posisi
-yang kamu lamar.
+Personal portfolio website built with **React + Vite + Tailwind CSS** to showcase my experience, skills, and projects in **System Analyst, Data Analyst, and Data Engineering** roles.
 
-## Struktur folder (yang penting aja)
+The website includes categorized project filtering to highlight different career tracks and provides a responsive interface with light/dark mode support.
+
+## 🌐 Live Demo
+
+🔗 Portfolio Website: https://your-vercel-url.vercel.app
+
+## ✨ Features
+
+- Responsive portfolio website
+- Project showcase with category filtering:
+  - System Analyst
+  - Data Analyst
+  - Data Engineer
+- Dark / light mode toggle
+- Single Page Application (SPA) navigation
+- Dynamic content management through data files
+- Clean and modular React component structure
+
+## 🛠️ Tech Stack
+
+**Frontend**
+- React.js
+- Vite
+- Tailwind CSS
+- JavaScript (ES6+)
+
+**Tools**
+- Git & GitHub
+- Vercel Deployment
+- VS Code
+
+## 📂 Project Structure
 
 ```
 src/
-├─ data/
-│  ├─ profile.js     ← EDIT DI SINI: nama, bio, pengalaman, pendidikan, kontak
-│  ├─ skills.js      ← EDIT DI SINI: daftar skill
-│  └─ projects.js    ← EDIT DI SINI: daftar proyek + kategori filternya
-├─ pages/            ← Satu file = satu halaman (Home, About, Resume, Work)
-├─ components/       ← Potongan UI yang dipakai berulang (Navbar, Footer, dll)
-├─ hooks/
-│  └─ useTheme.js    ← Logika dark mode
-├─ App.jsx           ← Navigasi antar halaman
-└─ index.css         ← Warna & font global (Tailwind)
+├── components/        # Reusable UI components
+├── pages/             # Website pages (Home, About, Resume, Work)
+├── data/              # Portfolio content data
+│   ├── profile.js     # Personal information and experience
+│   ├── skills.js      # Skills and technologies
+│   └── projects.js    # Project portfolio data
+├── hooks/
+│   └── useTheme.js    # Dark mode logic
+├── App.jsx            # Application routing
+└── index.css          # Global styling
 ```
 
-**99% edit yang kamu perlu lakukan cuma di tiga file:**
-`src/data/profile.js`, `src/data/skills.js`, dan `src/data/projects.js`.
-Sudah aku isi contoh dan komentar penjelasan di dalamnya — tinggal ganti
-teksnya sesuai dirimu.
+## 📌 Portfolio Sections
 
-Situs ini punya 4 halaman (Home, About, Resume, Work) yang dipindah tanpa
-reload halaman — tombolnya ada di `src/components/Navbar.jsx`. Ada juga
-tombol matahari/bulan di pojok kanan atas untuk ganti mode terang/gelap.
+### Home
+Introduction and professional summary.
 
-## Cara jalanin di komputer kamu (lewat VS Code)
+### About
+Background, education, and personal information.
 
-1. Buka folder ini di VS Code.
-2. Buka terminal di VS Code (`Terminal > New Terminal`), lalu jalankan:
-   ```
-   npm install
-   ```
-   (ini cuma perlu sekali di awal, buat download semua library yang dipakai)
-3. Jalankan:
-   ```
-   npm run dev
-   ```
-4. Buka link yang muncul di terminal (biasanya `http://localhost:5173`) di browser.
-   Setiap kamu save file, halamannya otomatis refresh — jadi enak buat lihat
-   perubahan langsung.
+### Resume
+Experience, education, certifications, and technical skills.
 
-## Cara edit isi web
+### Work
+Collection of selected projects categorized by career track.
 
-1. Buka `src/data/profile.js` → ganti nama, email, lokasi, pengalaman, pendidikan.
-2. Buka `src/data/skills.js` → ganti daftar skill kamu.
-3. Buka `src/data/projects.js` → ganti/tambah proyek. Tiap proyek punya field
-   `track` yang menentukan dia muncul di filter mana:
-   - `'system-analyst'`
-   - `'data-analyst'`
-   - `'data-engineer'`
-   - Boleh lebih dari satu, contoh: `track: ['data-analyst', 'data-engineer']`
-   - Field `image` bisa diisi link screenshot proyek kamu (kalau kosong, otomatis
-     pakai gradient placeholder)
-4. Kalau mau ganti warna atau font, buka `tailwind.config.js` (warna) atau
-   `index.html` (font, lewat Google Fonts).
+## 🚀 Getting Started
 
-## Cara push ke GitHub
+### Prerequisites
 
-Karena kamu sudah punya akun GitHub, tinggal:
+Make sure you have installed:
+
+- Node.js
+- npm
+
+### Installation
+
+Clone this repository:
 
 ```bash
-git init
-git add .
-git commit -m "Portofolio pertama"
+git clone https://github.com/username/portfolio-web.git
 ```
 
-Lalu buat repository baru di github.com (jangan centang "Add README", karena
-kita sudah punya), lalu jalankan perintah yang ditampilkan GitHub, biasanya:
+Navigate to the project folder:
 
 ```bash
-git remote add origin https://github.com/USERNAME_KAMU/NAMA_REPO.git
-git branch -M main
-git push -u origin main
+cd portfolio-web
 ```
 
-## Cara deploy ke Vercel
+Install dependencies:
 
-1. Buka vercel.com dan login pakai akun GitHub kamu.
-2. Klik **Add New → Project**.
-3. Pilih repository GitHub yang tadi kamu push.
-4. Vercel otomatis mendeteksi ini project Vite — biarkan setting default
-   (Build Command: `npm run build`, Output Directory: `dist`).
-5. Klik **Deploy**. Tunggu 1-2 menit, web kamu sudah online dengan URL
-   `nama-project.vercel.app`.
+```bash
+npm install
+```
 
-Setiap kali kamu `git push` update baru ke GitHub, Vercel otomatis build ulang
-dan update website kamu — gak perlu deploy manual lagi.
+Run the development server:
 
-## Tips
+```bash
+npm run dev
+```
 
-- Ganti favicon di folder `public/` kalau mau ada ikon custom di tab browser.
-- Kalau mau custom domain (misal `namamu.com`), bisa diatur di dashboard
-  Vercel → Settings → Domains.
+The application will run locally at:
+
+```
+http://localhost:5173
+```
+
+## 📦 Build for Production
+
+To create a production build:
+
+```bash
+npm run build
+```
+
+Preview the production build:
+
+```bash
+npm run preview
+```
+
+## 🚀 Deployment
+
+This project is deployed using **Vercel**.
+
+Every update pushed to the main branch will automatically trigger a new deployment.
+
+## 📸 Preview
+
+<img width="1902" height="862" alt="image" src="https://github.com/user-attachments/assets/17d42468-563e-491f-a865-067dcf6176fc" />
+
+
+## 👩‍💻 Author
+
+**Dewi Maharani**
+
+Information Systems Student  
+Interested in:
+- Business Analysis
+- System Analysis
+- Data Engineering
+- Data Analytics
+
+GitHub: https://github.com/dwmhr12
+
+LinkedIn: https://www.linkedin.com/in/dwmhr/
+
+Portfolio Website: https://dwmhr.vercel.app/)
+
+---
+
+⭐ Feel free to explore this repository and connect with me!

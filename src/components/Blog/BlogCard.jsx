@@ -46,7 +46,9 @@ export default function BlogCard({ blog }) {
           ))}
         </div>
 
-        <h3 className="font-display text-lg font-semibold leading-snug text-ink group-hover:text-primary dark:text-ink-dark dark:group-hover:text-primary-dark">
+        <h3 
+          title={title}
+          className="line-clamp-2 min-h-[3.5rem] font-display text-lg font-semibold leading-snug text-ink group-hover:text-primary dark:text-ink-dark dark:group-hover:text-primary-dark">
           {title}
         </h3>
 

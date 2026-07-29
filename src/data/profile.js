@@ -18,7 +18,7 @@ export const profile = {
   heroYear: '2026',
 
   // Hashtag kecil di halaman Home (kiri atas)
-  tags: ['#SystemAnalyst', '#DataEngineering', '#AIEngineer', '#UIUXDesigner'],
+  tags: ['#BusinessAnalyst','#SystemAnalyst', '#DataEngineering', '#AIEngineer', '#UIUXDesigner'],
 
   aboutTitle: 'Business & System Analyst',
   // Paragraf singkat tentang kamu (2-4 kalimat cukup)
@@ -49,6 +49,12 @@ export const profile = {
   // kalau belum ada sertifikat, section-nya otomatis nggak muncul.
   // "credentialUrl" boleh dikosongkan '' kalau belum ada link verifikasi.
   certifications: [
+    {
+      title: 'Introduction to SAP S/4HANA with GBI 4.2',
+      issuer: 'SAP',
+      date: '2023',
+      credentialUrl: 'https://drive.google.com/file/d/1Kk59GaT5Zm0Fx9svCBW-faf0Mjmhm6me/view?usp=sharing',
+    },
     {
       title: 'Google Cloud Computing Foundations: Data, ML, and AI in Google Cloud',
       issuer: 'Google',
@@ -97,12 +103,7 @@ export const profile = {
       date: '2024',
       credentialUrl: 'https://www.dicoding.com/certificates/QLZ9V8GREX5D',
     },
-    {
-      title: 'Introduction to SAP S/4HANA with GBI 4.2',
-      issuer: 'SAP',
-      date: '2023',
-      credentialUrl: '',
-    },
+  
   ],
 }
 

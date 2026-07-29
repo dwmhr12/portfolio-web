@@ -532,7 +532,7 @@ export const projects = [
 // Daftar filter yang ditampilkan di halaman (urutan sesuai array ini)
 export const tracks = [
   { key: 'all', label: 'All' },
-  { key: 'system-analyst', label: 'System Analyst' },
+  { key: 'system-analyst', label: 'Business Analyst' },
   { key: 'data-engineer', label: 'Data Engineer' },
   { key: 'ui-ux', label: 'UI/UX Designer' },
   

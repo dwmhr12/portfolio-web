@@ -7,98 +7,121 @@
 
 export const coreCompetencies = [
   {
-    name: 'Business Analysis',
-    description: 'Translating business needs into actionable solutions for technical teams.',
-  },
-  {
     name: 'System Analysis',
-    description: 'Analyzing existing system workflows to identify gaps and improvement opportunities.',
+    description: 'Analyzing requirements, system workflows, and processes to design practical system solutions.',
   },
   {
-    name: 'Requirement Gathering',
-    description: 'Eliciting stakeholder needs through interviews, workshops, and observations.',
+    name: 'Requirement Analysis',
+    description: 'Identifying and translating user and stakeholder needs into clear system requirements.',
+  },
+  {
+    name: 'System & Application Flow',
+    description: 'Designing end-to-end application and system flows based on functional requirements.',
   },
   {
     name: 'Business Process Modeling',
-    description: 'Mapping end-to-end business processes using standard notations such as BPMN.',
+    description: 'Modeling end-to-end processes using BPMN to understand workflows and support system design.',
   },
   {
-    name: 'BRD & SRS Documentation',
-    description: 'Creating business and system requirement documents as development references.',
+    name: 'SRS Documentation',
+    description: 'Documenting system requirements and specifications as references for development.',
   },
   {
     name: 'UML Modeling',
-    description: 'Representing system structure and behavior through UML diagrams.',
+    description: 'Modeling system structure and behavior using UML diagrams.',
   },
   {
     name: 'Database Design',
-    description: 'Designing efficient database schemas aligned with business requirements.',
+    description: 'Designing database structures aligned with system requirements and data needs.',
+  },
+  {
+    name: 'API & System Integration',
+    description: 'Understanding and working with REST APIs and interactions between system components.',
   },
   {
     name: 'Data Analysis',
-    description: 'Transforming raw data into insights that support decision-making.',
+    description: 'Analyzing data to identify patterns, insights, and opportunities for improvement.',
   },
   {
     name: 'UI/UX Prototyping',
-    description: 'Creating wireframes and interactive prototypes before development.',
+    description: 'Designing wireframes and interactive prototypes to visualize system solutions.',
   },
 ]
 
 export const tools = [
+  // System / Development
   {
-    name: 'Microsoft Word',
-    description: 'Creating formal reports, proposals, and technical documentation.',
+    name: 'Git',
+    description: 'Managing version control and collaborating on project code.',
+  },
+  {
+    name: 'GitHub / Bitbucket',
+    description: 'Managing repositories and collaborating on development projects.',
+  },
+  {
+    name: 'Next.js',
+    description: 'Building web applications and implementing application interfaces.',
+  },
+  {
+    name: 'React',
+    description: 'Developing interactive web interfaces and application components.',
+  },
+  {
+    name: 'TypeScript',
+    description: 'Developing structured and type-safe web applications.',
+  },
+  {
+    name: 'PostgreSQL',
+    description: 'Working with relational databases for application data.',
+  },
+  {
+    name: 'REST API',
+    description: 'Integrating and exchanging data between applications and services.',
+  },
+
+  // Data / AI
+  {
+    name: 'SQL',
+    description: 'Querying, analyzing, and validating relational data.',
+  },
+  {
+    name: 'BigQuery',
+    description: 'Querying and analyzing data for analytics and reporting.',
   },
   {
     name: 'Python',
-    description: 'Programming language for data analysis, automation, and scripting.',
-  },
-  {
-    name: 'SQL',
-    description: 'Writing queries and managing data in relational databases.',
-  },
-  {
-    name: 'MySQL',
-    description: 'Open-source relational database management system.',
-  },
-  {
-    name: 'SAP S/4HANA',
-    description: 'Enterprise ERP system for integrated business processes.',
-  },
-  {
-    name: 'Power BI',
-    description: 'Creating interactive dashboards and data visualizations.',
+    description: 'Working on data analysis, automation, and AI-related projects.',
   },
   {
     name: 'Apache NiFi',
-    description: 'Automating data flow, integration, and transformation between systems.',
+    description: 'Building ETL pipelines and integrating data from different sources.',
   },
   {
     name: 'Milvus',
-    description: 'Vector database for similarity-based search and retrieval.',
+    description: 'Building vector search and retrieval components for RAG applications.',
   },
-  {
-    name: 'Figma',
-    description: 'Designing UI/UX interfaces and interactive prototypes collaboratively.',
-  },
-  {
-    name: 'Canva',
-    description: 'Creating visual content and graphic designs efficiently.',
-  },
+
+  // Analysis / Design
   {
     name: 'Draw.io',
-    description: 'Creating flowcharts, system diagrams, and architecture models.',
+    description: 'Designing system flows, process diagrams, and technical models.',
   },
   {
     name: 'BPMN.io',
-    description: 'Creating business process diagrams using BPMN notation.',
+    description: 'Modeling business processes and workflows using BPMN.',
   },
   {
-    name: 'Git',
-    description: 'Version control system for managing code changes systematically.',
+    name: 'Figma',
+    description: 'Designing interfaces, wireframes, and interactive prototypes.',
+  },
+
+  // Business / Enterprise
+  {
+    name: 'SAP S/4HANA',
+    description: 'Working with enterprise processes and ERP system scenarios.',
   },
   {
-    name: 'GitHub',
-    description: 'Platform for code collaboration and Git-based repository hosting.',
+    name: 'Airtable',
+    description: 'Managing structured data and supporting application workflows.',
   },
 ]

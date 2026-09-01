@@ -10,377 +10,684 @@
 // Satu proyek boleh punya lebih dari satu track kalau memang
 // relevan untuk keduanya, tinggal tulis array-nya lebih dari satu.
 //
-// ------------------- STRUKTUR STUDI KASUS (v3) -------------------
+// --------- STRUKTUR STUDI KASUS (v8 — selaras ProjectModal.jsx) ---------
+// Modal sekarang punya 6 section: Overview -> Problem -> Process ->
+// Solution Approach -> Key Insight -> Expected Outcomes, ditambah
+// hook di atas Overview dan CTA di paling bawah.
+//
 // "description"      -> ringkasan singkat, dipakai di CARD grid (Work.jsx)
 // "categories"        -> tag kategori kerja, tampil di bawah judul modal
-// "overview"          -> 1-2 kalimat padat, ini yang PERTAMA dibaca recruiter
-// "preview"           -> gambar besar di hero modal (ERD/mockup/dashboard).
-// "info"              -> data proyek dalam bentuk card:
-//                        { role, timeline, type, team, tools: [] }
-//                        "type" contoh: 'Academic Project' / 'Client Project' / 'Personal Project'
-//                        "team" contoh: 'Individual' / 'Team of 3'
-// "problems"          -> array string, masalah (tampil pakai ❌)
-// "responsibilities"  -> array {title, detail} — tugas + penjelasan 1 baris
-// "process"           -> array {title, detail} — tahap kerja bernomor
-// "deliverables"      -> array {label, image} — kosongkan "image" kalau
-//                        belum ada, nanti otomatis tampil placeholder rapi
-// "impact"            -> array {label, before, after} — usahakan 3 indikator,
-//                        boleh kualitatif ("Manual" -> "Digital Workflow")
-// "lessonsLearned"    -> array string, pembelajaran dari proyek ini
-// "businessInsight"   -> paragraf singkat (2-3 kalimat), insight level bisnis
-//                        bukan cuma teknis — ini yang paling BA banget
-// "tech"              -> badge tech stack
-// "prototype"         -> link Figma (opsional)
-// "link"              -> link source code/GitHub (opsional)
-// "document"          -> link dokumen (BRD/SRS/laporan) (opsional)
+// "hook"              -> string (OPSIONAL) — satu baris "peran + hasil
+//                        utama", tampil MENONJOL (bold) tepat di bawah
+//                        judul & categories, SEBELUM gallery/overview.
+//                        Tujuannya recruiter dapat inti project dalam
+//                        3 detik pertama tanpa perlu scroll. Contoh:
+//                        "Business Analyst — redesigned an ERP leave
+//                        workflow, projected to cut approval time from
+//                        3–5 days to under 1 day."
+//                        Kalau kosong, baris ini otomatis nggak muncul.
+// "gallery"           -> array {src, fullSrc, label, caption, alt} (OPSIONAL)
+//                        — carousel gambar di section OVERVIEW, tampil
+//                        tepat di bawah judul & categories/hook, sebelum
+//                        teks overview. Cocok untuk kasih "gambaran besar"
+//                        project sebelum recruiter baca teksnya, misalnya
+//                        urutan As-Is -> Gap -> To-Be -> Solution.
+//                        -> "src"      WAJIB — gambar yang tampil di
+//                           carousel. Taruh file-nya di folder /public
+//                           project (lihat catatan lokasi file di bawah),
+//                           lalu isi path-nya mulai dari root, mis.
+//                           '/projects/odoo/01-as-is-bpmn.png'.
+//                        -> "fullSrc"  OPSIONAL — gambar resolusi
+//                           tinggi yang dibuka di lightbox saat gambar
+//                           di-klik/di-zoom. Kalau kosong, "src" yang
+//                           dipakai juga di lightbox.
+//                        -> "label"    OPSIONAL — judul singkat slide,
+//                           mis. 'As-Is process'.
+//                        -> "caption"  OPSIONAL — deskripsi 1 baris di
+//                           bawah label, mis. 'BPMN kondisi eksisting'.
+//                        -> "alt"      OPSIONAL — teks alt gambar untuk
+//                           aksesibilitas/SEO. Kalau kosong, "label"
+//                           dipakai sebagai fallback.
+//                        Kalau "gallery" kosong/tidak diisi, section
+//                        carousel-nya otomatis tidak muncul di modal.
+// "overview"          -> section OVERVIEW. Bisa diisi:
+//                        - string tunggal (format lama, tetap didukung), atau
+//                        - array string, tiap elemen jadi 1 paragraf terpisah
+//                          dengan jarak antar paragraf (dipakai kalau overview
+//                          butuh lebih dari satu paragraf, misalnya proyek
+//                          Odoo di bawah).
+// "note"              -> string (OPSIONAL) — catatan tambahan di bawah overview,
+//                        ditampilkan sebagai kotak kecil bergaya "callout"
+//                        (border kiri + italic), mirip blockquote di README.
+//                        Cocok buat disclaimer, asumsi simulasi, atau catatan
+//                        konteks lain. Kalau kosong, kotaknya nggak muncul.
+//                        PENTING: kalau "note" bilang project ini simulasi,
+//                        pastikan angka apa pun di "metrics"/"outcomes"
+//                        dibingkai sebagai proyeksi/estimasi (lihat field
+//                        "metrics" di bawah), bukan seolah capaian riil.
+// "preview"           -> gambar besar di hero modal — section OVERVIEW
+//                        (dipakai kalau TIDAK ada "gallery"; kalau "gallery"
+//                        diisi, carousel yang tampil duluan, "preview" tetap
+//                        boleh diisi sebagai cadangan/dipakai di tempat lain).
+// "problems"          -> array string — section PROBLEM
+// "process"           -> array {title, detail, output, outputLink} — section
+//                        PROCESS, ditampilkan sebagai tabel 2 kolom:
+//                        "Process" (nomor + title + detail) | "Output"
+//                        -> "output" WAJIB diisi kalau mau kolom Output-nya
+//                           muncul di baris itu.
+//                        -> "outputLink" OPSIONAL: isi dengan link ke file
+//                           aslinya (Google Drive, Figma, GitHub, dst) kalau
+//                           mau teks Output-nya bisa diklik dan buka file itu
+//                           di tab baru. Kosongkan '' kalau belum ada linknya
+//                           — teksnya tetap tampil tapi nggak bisa diklik.
+//                           Konvensi yang dipakai di file ini: step yang
+//                           outputnya desain/prototype (mis. "Interactive
+//                           Prototype") di-link ke "prototype" (Figma), dan
+//                           step yang outputnya dokumen/laporan (mis.
+//                           "Documentation") di-link ke "document" (Drive/
+//                           Docs) — dua-duanya field yang sama di project
+//                           ini juga. Kalau ada output lain yang punya file
+//                           sendiri (nggak sama dengan prototype/document),
+//                           tinggal isi outputLink-nya langsung dengan link
+//                           file itu. CATATAN: link GitHub yang dipakai di
+//                           sini formatnya "blob" (halaman preview GitHub),
+//                           itu OK untuk outputLink karena cuma dibuka di
+//                           tab baru — tapi TIDAK BISA dipakai langsung
+//                           sebagai "src" gallery/img (lihat catatan di
+//                           bawah).
+// "solutionIntro"     -> array string (OPSIONAL) — paragraf pengantar di
+//                        section SOLUTION APPROACH, tampil di atas list
+//                        "solutions". Tiap elemen jadi 1 paragraf terpisah.
+//                        Kalau kosong, langsung loncat ke list "solutions".
+//                        Cocok juga buat jelasin TRADE-OFF pemilihan tool/
+//                        platform (mis. kenapa Odoo dibanding alternatif
+//                        lain) — tinggal tambah 1 paragraf pembanding
+//                        kriteria (biaya, skalabilitas, ease of config)
+//                        di sini, nggak perlu section baru.
+// "solutions"         -> array string (OPSIONAL) — list poin di section
+//                        SOLUTION APPROACH, tampil di bawah "solutionIntro"
+//                        (kalau ada). Section ini otomatis nggak ditampilkan
+//                        kalau "solutionIntro" dan "solutions" dua-duanya
+//                        kosong. Cocok buat proyek yang punya rekomendasi/
+//                        pendekatan solusi yang jelas (mis. daftar fitur
+//                        solusi ERP, daftar capability sistem yang
+//                        diusulkan, dst).
+// "businessInsight"   -> section KEY INSIGHT. Bisa diisi:
+//                        - string tunggal (format lama, tetap didukung), atau
+//                        - array string, tiap elemen jadi 1 paragraf terpisah
+//                          di modal (dipakai kalau insight-nya butuh lebih
+//                          dari satu paragraf, misalnya proyek Odoo di bawah).
+// "outcomeIntro"      -> array string (OPSIONAL) — paragraf pengantar di
+//                        section EXPECTED OUTCOMES, tampil di atas list
+//                        "outcomes"/"outcomeStats". Tiap elemen jadi 1
+//                        paragraf terpisah. Kalau kosong, langsung loncat
+//                        ke stat card / list "outcomes".
+// "outcomeStats"      -> array {label, before, after, icon} (OPSIONAL) —
+//                        stat card before -> after di section EXPECTED
+//                        OUTCOMES, tampil di atas list "outcomes" (kalau
+//                        ada). Dipakai untuk poin outcome yang punya angka
+//                        kuantitatif jelas (mis. waktu approval, jumlah
+//                        langkah proses), biar polanya "before vs after"
+//                        lebih menonjol dibanding cuma bullet biasa.
+//                        -> "label" WAJIB — nama metrik singkat, mis.
+//                           'Approval Time'.
+//                        -> "before" WAJIB — nilai sebelum improvement.
+//                        -> "after"  WAJIB — nilai sesudah improvement.
+//                        -> "icon"   OPSIONAL — nama ikon (mis. 'clock',
+//                           'check') kalau modal-nya support render ikon
+//                           per card.
+//                        Kalau "outcomeStats" kosong/tidak diisi, section
+//                        Expected Outcomes otomatis fallback ke bullet list
+//                        biasa seperti sebelumnya (backward-compatible).
+// "outcomes"          -> array string (OPSIONAL) — list poin KUALITATIF di
+//                        section EXPECTED OUTCOMES, tampil di bawah
+//                        "outcomeStats" (kalau ada). Section ini otomatis
+//                        nggak ditampilkan kalau "outcomeIntro",
+//                        "outcomeStats", dan "outcomes" tiga-tiganya kosong.
+//                        Poin yang punya angka before->after sebaiknya
+//                        dipindah ke "outcomeStats" di atas, bukan ditulis
+//                        di sini sebagai kalimat "Projected to...".
+// "tech"              -> badge tech stack (dipakai di CARD grid, bukan di modal)
+// "prototype"         -> link Figma (opsional, tombol aksi di modal)
+// "link"              -> link source code/GitHub (opsional, tombol aksi di modal)
+// "document"          -> link dokumen BRD/SRS/laporan (opsional, tombol aksi di modal)
 // "image"             -> gambar thumbnail di CARD grid
+// "contact"           -> {url, label} (OPSIONAL) — CTA satu baris di
+//                        paling bawah modal, di bawah tombol Prototype/
+//                        Source/Documentation. Diisi sekali lewat konstanta
+//                        CONTACT di bagian bawah file ini dan otomatis
+//                        ditempel ke SEMUA project (lihat penjelasan di
+//                        dekat "export const projects" di bawah) — jadi
+//                        nggak perlu diulang manual di tiap object project.
+//                        -> "url"   WAJIB — link tujuan (LinkedIn, mailto:,
+//                           dst). Kalau kosong, CTA-nya nggak muncul.
+//                        -> "label" OPSIONAL — teks link, default
+//                           'Hubungi saya' kalau dikosongkan.
+//
+// --------- DI MANA NARUH FILE GAMBAR UNTUK "gallery" ---------
+// Sama seperti "image"/"preview" yang sudah ada di file ini (mis.
+// '/odoo1.png', '/Ai.png'), taruh file gambarnya di folder /public
+// project React kamu, lalu tulis path-nya mulai dari root ('/...'),
+// BUKAN dari folder src/ atau path relatif.
+//
+//   my-app/
+//   ├─ public/
+//   │  ├─ odoo1.png                     <- sudah ada (preview/card)
+//   │  └─ projects/
+//   │     └─ odoo/
+//   │        ├─ 01-as-is-bpmn.png       <- gallery[0].src
+//   │        ├─ 02-gap-analysis.png     <- gallery[1].src
+//   │        ├─ 03-to-be-bpmn.png       <- gallery[2].src
+//   │        └─ 04-odoo-solution.png    <- gallery[3].src
+//   └─ src/...
+//
+// Lalu dipanggil di data ini sebagai:  src: '/projects/odoo/01-as-is-bpmn.png'
+//
+// Kalau gambarnya mau tetap disimpan di GitHub (bukan di /public), link
+// GitHub yang sekarang dipakai di "outputLink" ('.../blob/main/...') TIDAK
+// BISA langsung jadi src <img> karena itu halaman HTML, bukan file gambar.
+// Harus diubah dulu dari "github.com/.../blob/..." jadi
+// "raw.githubusercontent.com/.../..." (hapus "blob/"), contoh sudah
+// dipakai di gallery proyek Odoo di bawah. Cara ini jalan tapi lebih
+// lambat/berisiko (tergantung uptime & rate-limit GitHub) dibanding
+// naruh file di /public sendiri — jadi /public tetap disarankan.
+//
+// Untuk output yang formatnya PDF (mis. Functional Requirement Document,
+// Odoo Configuration Documentation), itu TIDAK bisa langsung dipakai
+// sebagai gambar. Kalau mau tetap muncul di carousel, screenshot dulu
+// halaman/cover-nya jadi .png, taruh di /public seperti di atas, baru
+// masukkan ke "gallery" (fungsi outputLink dokumen aslinya tetap ada di
+// section Process, nggak perlu dihapus).
+//
+// Field "info" (role/timeline/type/team/tools), "responsibilities",
+// "deliverables", "impact", dan "lessonsLearned" SUDAH TIDAK DITAMPILKAN
+// oleh ProjectModal yang sekarang — sengaja dihapus dari sini biar file
+// ini nggak nyimpen data yang nggak kepake. Kalau nanti mau dimunculkan
+// lagi, tambah section-nya balik di ProjectModal.jsx dulu baru isi field
+// ini lagi.
 // =============================================================
 
-export const projects = [
+// TODO: ganti url/label di bawah ini sesuai kontak yang mau kamu tampilkan
+// di CTA bawah tiap modal (LinkedIn, email, dsb). Set url: '' kalau mau
+// CTA-nya disembunyikan sementara dari semua project.
+const CONTACT = {
+  url: 'https://www.linkedin.com/in/your-linkedin-handle',
+  label: 'Hubungi saya di LinkedIn',
+}
+
+const rawProjects = [
   {
-    title: 'AI Knowledge Management System for Renewable Energy Regulations',
-    track: ['system-analyst'],
-    description:
-      'Created a Business Requirement Document (BRD) for an AI-powered Knowledge Management System designed to help users search renewable energy regulations in Indonesia. The document outlines business needs, system requirements, business processes, and UI/UX design for the proposed solution.',
-    categories: ['Business Analysis', 'System Analysis', 'UI/UX'],
-    overview:
-      'This project is about designing the business requirements for an AI-powered Knowledge Management System for renewable energy regulations in Indonesia. It includes business process modeling, system requirements, UML diagrams, and UI/UX design documented in a Business Requirement Document (BRD).',
-    preview: '/Ai.png', 
-    info: {
-      role: 'Business Analyst',
-      timeline: '2 Weeks',
-      type: 'Academic Project',
-      team: 'Individual',
-      tools: ['BPMN.io', 'Draw.io', 'Figma', 'Microsoft Word'],
+  title: 'TaskSync – Smart Academic Task Management',
+  track: ['system-analyst'],
+  description:
+    'Analyzed requirements and designed the system flow for a student task-management application, covering user workflows, system requirements, and UI/UX design.',
+  categories: ['System Analysis & Application Design'],
+  hook:
+    'System Analyst — analyzed requirements and designed the system flow, requirements, and UI/UX for a student task-management application.',
+  gallery: [
+      {
+    src: '/taskSync.png',
+    label: 'TaskSync mockup',
+    caption: 'High-fidelity mockup of the TaskSync application',
+      },
+  ],
+  overview: [
+    'TaskSync is a mobile application designed to help students manage academic tasks, schedules, and deadlines in one place.',
+    'This project focused on analyzing user requirements, defining system requirements, designing application flows, and documenting the proposed solution through a Software Requirements Specification (SRS).',
+  ],
+  note:
+    'This project was developed as an academic project, with the proposed system and requirements documented for future application development.',
+  preview: '/taskySync.png',
+  problems: [
+    'Students use multiple platforms to manage academic tasks and schedules.',
+    'Keeping track of assignments, deadlines, and schedules can be difficult.',
+    'Academic tasks and personal schedules are not centralized in one application.',
+  ],
+  process: [
+    {
+      title: 'Requirement Gathering',
+      detail: 'Identified user needs and academic workflow through requirement gathering.',
+      output: 'User Requirements',
+      outputLink: 'https://github.com/dwmhr12/business-analyst-portfolio/tree/main/TaskSync',
     },
-    problems: [
-      'Renewable energy regulations are scattered across multiple documents',
-      'Finding relevant regulations is time-consuming and inefficient',
-      'There is no centralized knowledge management system to support information retrieval',
-    ],
-    responsibilities: [
-      { title: 'Requirement Gathering', detail: 'Collected business needs and user requirements' },
-      { title: 'Business Process Analysis', detail: 'Analyzed existing workflows and identified improvement opportunities' },
-      { title: 'BRD Documentation', detail: 'Prepared the Business Requirement Document (BRD)' },
-      { title: 'System Requirements', detail: 'Defined functional and non-functional requirements' },
-      { title: 'System Design', detail: 'Designed a high-level system architecture' },
-      { title: 'UI/UX Design', detail: 'Created wireframes and interactive prototypes using Figma..' },
-    ],
-    process: [
-      { title: 'Requirement Gathering', detail: 'Identify business needs and user requirements' },
-      { title: 'Business Analysis', detail: 'Analyze workflows and define business requirements' },
-      { title: 'System Design', detail: 'Create UML diagrams and system architecture' },
-      { title: 'UI/UX Design', detail: 'Design wireframes and interactive prototypes' },
-      { title: 'Documentation', detail: 'Prepare the Business Requirement Document (BRD)' },
-    ],
-    deliverables: [
-      { label: 'AS-IS Business Process', image: '/asischatbot.png' },
-      { label: 'TO-BE  Business Process', image: '/tobechatbot.png' },
-      { label: 'Use Case Diagram', image: '/usecasechatbot.png' },
-    ],
-    impact: [
-      { label: 'Knowledge Access', before: 'Scattered Documents', after: 'Centralized KMS Design' },
-      { label: 'Information Retrieval', before: 'Manual Search', after: 'AI-Assisted Retrieval' },
-      { label: 'System Requirements', before: 'Undefined', after: 'Well-Documented BRD' },
-    ],
-    lessonsLearned: [
-      'Translating business needs into structured system requirements',
-      'Designing business processes before proposing technical solutions',
-      'Preparing comprehensive BRD documentation for AI-powered systems',
-    ],
-    businessInsight:
-      'The biggest challenge was not the AI technology itself, but understanding user needs and translating them into clear business and system requirements before development began',
-    tech: ['BRD', 'UML', 'FR', 'NFR', 'Use Case'],
-    prototype: '',
-    link: '',
-    document: 'https://intip.in/aiKnowledgeManagement',
-    image: '/Ai.png',
-  },
-  {
-    title: 'TaskSync – Smart Academic Task Management',
-    track: ['system-analyst'],
-    description:
-      'Created an SRS for TaskSync, a mobile application designed to help students manage academic tasks and schedules more efficiently. The document outlines the software requirements, user workflows, and UI/UX design for the proposed application.',
-    categories: ['System Analysis', 'UI/UX'],
-    overview:
-      'TaskSync was designed to help students keep track of academic tasks, schedules, and other activities in one place. As part of this project, I developed the Software Requirements Specification (SRS), covering software requirements, external interfaces, and UI/UX design. The document serves as a reference for future application development.',
-    preview: '/taskSync.png',
-    info: {
-      role: 'System Analysis',
-      timeline: '4 Weeks',
-      type: 'Academic Project',
-      team: 'Individual',
-      tools: ['BPMN.io', 'Draw.io', 'Figma', 'Microsoft Word'],
+
+    {
+      title: 'Requirement Analysis',
+      detail: 'Analyzed user needs and translated them into functional and non-functional system requirements.',
+      output: 'System Requirements',
+      outputLink: 'https://github.com/dwmhr12/business-analyst-portfolio/tree/main/TaskSync',
     },
-    problems: [
-      'Students use multiple platforms to manage academic tasks and schedules',
-      'Keeping track of assignments and deadlines is often confusing',
-      'There is no centralized application that integrates academic tasks and personal schedules',
-    ],
-    responsibilities: [
-      { title: 'Requirements Analysis', detail: 'Identified user needs and defined software requirements' },
-      { title: 'SRS Documentation', detail: 'Prepared the Software Requirements Specification (SRS) based on the IEEE 830-1998 standard' },
-      { title: 'System Requirements', detail: 'Defined functional and non-functional requirements' },
-      { title: 'Interface Design', detail: 'Documented external interfaces and system interactions' },
-      { title: 'UI/UX Design', detail: 'Designed wireframes and interactive prototypes using Figma' },
-    ],
-    process: [
-      { title: 'Requirement Gathering', detail: 'Identify user needs and academic workflow' },
-      { title: 'Requirement Analysis', detail: 'Define functional and non-functional requirements' },
-      { title: 'System Design', detail: 'Design user flows and external interfaces' },
-      { title: 'UI/UX Design', detail: 'Create wireframes and interactive prototypes in Figma' },
-      { title: 'Documentation', detail: 'Prepare the Software Requirements Specification (SRS)' },
-    ],
-    impact: [
-      { label: 'Task Management', before: 'Multiple Platforms', after: 'Centralized Application Design' },
-      { label: 'Requirement Documentation', before: 'Undefined', after: 'Well-Structured SRS' },
-      { label: 'Decision Speed', before: 'Delayed', after: 'Near Real-Time' },
-    ],
-    lessonsLearned: [
-      'Cleaning messy real-world transaction data at scale.',
-      'Designing dashboards that non-technical users can self-serve.',
-      'Balancing detail vs. simplicity in data visualization.',
-    ],
-    businessInsight:
-      'Masalah utama tim sales bukan kurangnya data, tapi lambatnya akses ke data yang sudah ada. Dashboard self-service ini mengubah keputusan yang tadinya menunggu laporan mingguan menjadi bisa diambil harian.',
-    tech: ['Software Requirements Specification (SRS)', 'IEEE 830-1998',
-  'Requirement Analysis',
-  'Functional Requirements',
-  'Non-Functional Requirements',
-  'Use Case Diagram',
-  'BPMN',
-  'Activity Diagram',
-  'Wireframing',
-  'Figma',],
-    prototype: '',
-    link: '',
-    document: 'https://intip.in/TaskSync',
-    image: '/taskSync.png',
-  },
-  {
-    title: 'Mamikos Mobile App Redesign',
-    track: ['ui-ux'],
-    description:
-      'Redesigned the Mamikos mobile application by reviewing the existing interface and improving key user flows. The project resulted in an interactive high-fidelity prototype created in Figma',
-    categories: ['UI/UX Design'],
-    overview:
-      'The project began by reviewing the existing Mamikos mobile application to identify usability issues and areas for improvement. Based on the findings, the interface and user flows were redesigned, followed by the development of a high-fidelity prototype in Figma',
-    preview: '/mamikos.jpg',
-    info: {
-      role: 'UI/UX Designer',
-      timeline: '3 Weeks',
-      type: 'Academic Project',
-      team: 'Team Project',
-      tools: ['Figma'],
+
+    {
+      title: 'System Flow Design',
+      detail: 'Designed application and system flows based on the identified requirements.',
+      output: 'User Flows & System Processes',
+      outputLink: 'https://github.com/dwmhr12/business-analyst-portfolio/tree/main/TaskSync',
     },
-    problems: [
-      'Communication between property owners and tenants was limited, causing misunderstandings due to unclear or outdated information.',
-      'Users struggled to find suitable boarding houses because the filtering system was not detailed or intuitive enough.',
-      'Property information, photos, and facilities were often outdated, reducing user trust and satisfaction.',
-    ],
-    responsibilities: [
-      { title: 'Application Review', detail: 'Reviewed the existing Mamikos application with the team to evaluate its usability.' },
-      { title: 'Usability Analysis', detail: 'Identified usability issues and explored potential design improvements.' },
-      { title: 'User Flow Redesign', detail: 'Redesigned key user flows to create a more intuitive experience.' },
-      { title: 'UI Design', detail: 'Designed high-fidelity interface screens in Figma.' },
-      { title: 'Prototype & Presentation', detail: 'Built an interactive prototype and presented the design for team discussion and feedback.' },
-    ],
-    process: [
-      { title: 'Needfinding Interviews', detail: 'Conducted interviews with six participants, including tenants and property owners, to understand user needs and pain points.' },
-      { title: 'Problem Identification', detail: 'Synthesized interview findings to identify key usability issues related to communication, search experience, and property information.' },
-      { title: 'User Flow Redesign', detail: 'Redesigned key user flows to simplify interactions and improve the overall user experience.' },
-      { title: 'High-Fidelity UI Design', detail: 'Designed polished interface screens in Figma with a more consistent and user-centered design.' },
-      { title: 'Interactive Prototype', detail: 'Built a clickable prototype in Figma to demonstrate the redesigned experience and gather feedback.' },
-    ],
-    impact: [
-      { label: 'Communication', before: 'Basic Chat Experience', after: 'Interactive Chat with Media Support' },
-      { label: 'Property Search', before: 'Limited Filtering', after: 'More Detailed & Personalized Filtering' },
-      { label: 'Property Information', before: 'Unclear Update Status', after: 'Information Renewal Feature' },
-    ],
-    lessonsLearned: [
-      'User interviews uncovered usability issues that were not apparent from the interface alone.',
-      'Iterative prototyping and usability testing helped refine the design from low-fidelity to high-fidelity prototypes.',
-      'Providing transparent and up-to-date information is essential for building user trust in rental platforms.',
-    ],
-    businessInsight:
-      'The research showed that user dissatisfaction was driven primarily by communication gaps, inefficient search, and outdated property information rather than visual design alone. By improving communication, enhancing filtering, and increasing information transparency, the redesign aims to build greater user trust and support more confident rental decisions.',
-    tech: ['Figma',
-          'Design Thinking',
-          'User Interview',
-          'Needfinding',
-          'Empathy Map',
-          'Usability Testing',
-          'Heuristic Evaluation',
-          'Wizard of Oz',
-          'High-Fidelity Prototyping'],
-    prototype: 'https://www.figma.com/proto/sqT8Sne7TRGjmMX5ZPjju2/DPP-D-Kel-8---Mamikos?node-id=0-1&t=QdVpgN8pvuwiDgMG-1 ',
-    link: '',
-    document: 'https://intip.in/MamiKos',
-    image: '/mamikos.jpg',
-  },
-  {
-    title: 'Surgeinez Mobile App Prototype',
-    track: ['ui-ux'],
-    description:
-      'Designed a high-fidelity mobile application prototype in Figma based on predefined requirements and user flows for an academic final project.',
-    categories: ['UI/UX Design'],
-    overview:
-      'Contributed to an academic final project by translating existing requirements into a high-fidelity mobile application prototype. Designed multiple application screens and connected them into an interactive prototype in Figma.',
-    preview: '/surgeine.jpg',
-    info: {
-      role: 'UI/UX Designer',
-      timeline: '1 Week',
-      type: 'Freelance',
-      team: 'Individual',
-      tools: ['Figma'],
+
+    {
+      title: 'System Modeling',
+      detail: 'Modeled system structure and behavior using UML, BPMN, and activity diagrams.',
+      output: 'Use Case, BPMN & Activity Diagram',
+      outputLink: 'https://github.com/dwmhr12/business-analyst-portfolio/tree/main/TaskSync',
     },
-    problems: [
-      'The project required a high-fidelity prototype to visualize the application before development.',
-      'The provided requirements needed to be translated into a clear and consistent mobile interface.',
-      'Stakeholders required an interactive prototype to demonstrate user flows and application features.',
-    ],
-    responsibilities: [
-      { title: 'UI Design', detail: 'Designed high-fidelity mobile interface screens in Figma.' },
-      { title: 'Prototype Development', detail: 'Created an interactive prototype by connecting user flows across multiple screens.' },
-      { title: 'Design Collaboration', detail: 'Worked closely with the project owner to implement the provided requirements into the final prototype.' },
-    ],
-    process: [
-      { title: 'Review Requirements', detail: 'Reviewed the provided requirements and application flow.' },
-      { title: 'Design UI Screens', detail: 'Designed high-fidelity mobile interface screens in Figma.' },
-      { title: 'Build Prototype', detail: 'Connected screens into an interactive prototype.' },
-      { title: 'Revision', detail: 'Refined the prototype based on project feedback.' },
-    ],
-    impact: [
-      { label: 'Prototype', before: 'Wireframe / Concept', after: 'Interactive High-Fidelity Prototype' },
-      { label: 'Visualization', before: 'Requirement Document', after: 'Ready for User Demonstration' },
-      { label: 'Stakeholder Review', before: 'Written Specification', after: 'Clickable Design Flow' },
-    ],
-    lessonsLearned: [
-      'Transforming functional requirements into intuitive mobile interfaces.',
-      'Maintaining visual consistency across multiple application screens.',
-      'Building interactive prototypes to communicate application flows.',
-    ],
-    businessInsight:
-      'Interactive prototypes reduce ambiguity during product development by allowing stakeholders to visualize application flows, identify usability concerns earlier, and communicate design ideas more effectively.',
-    tech: ['Figma', 'UI Design', 'Prototyping'],
-    prototype: 'https://www.figma.com/proto/Jc5ae5Hk7ItQuVaL6CYDLH/Surgeine?node-id=0-1&t=pymEWsdSeHPpDTrK-1',
-    link: '',
-    document: '',
-    image: '/surgeine.jpg',
-  },
-  {
-    title: 'TaskSync Mobile App',
-    track: ['ui-ux'],
-    description:
-      'Designed a high-fidelity mobile application that helps university students manage academic tasks by integrating assignments, reminders, and schedules into a single platform.',
-    categories: ['UI/UX Design'],
-    overview:
-      'TaskSync is a mobile application concept designed to help students organize academic activities more efficiently. The project focused on designing intuitive user flows and a consistent interface, resulting in an interactive high-fidelity prototype created in Figma.',
-    preview: '/uiuxtasksync.jpg',
-    info: {
-      role: 'UI/UX Designer',
-      timeline: '3 Weeks',
-      type: 'Personal Project',
-      team: 'Individual',
-      tools: ['Figma'],
+
+    {
+      title: 'UI/UX Design',
+      detail: 'Created wireframes and interactive prototypes to visualize the proposed application.',
+      output: 'Wireframes & Interactive Prototype',
+      outputLink: 'https://www.figma.com/proto/CWJeae8DRxqByskWcu3s0T/TaskSync?node-id=0-1&t=H3I0XVVvMMDSH7Sl-1',
     },
-    problems: [
-      'Students often managed assignments, schedules, and reminders across multiple applications.',
-      'Keeping track of deadlines became difficult due to scattered academic information.',
-      'Existing task management solutions were not specifically designed for university academic workflows.',
-    ],
-    responsibilities: [
-      { title: 'User Flow Design', detail: 'Designed user journeys for managing academic tasks, reminders, and schedules.' },
-      { title: 'Information Architecture', detail: 'Structured application features into a simple and intuitive navigation.' },
-      { title: 'UI Design', detail: 'Designed high-fidelity mobile interfaces in Figma.' },
-      { title: 'Interactive Prototype', detail: 'Created a clickable prototype demonstrating the complete user flow.' },
-      { title: 'Design System', detail: 'Maintained consistent visual components, typography, and color styles.' },
-    ],
-    process: [
-      { title: 'Problem Exploration', detail: 'Defined common challenges students face when managing academic activities.' },
-      { title: 'User Flow Design', detail: 'Mapped user journeys for creating, organizing, and tracking assignments.' },
-      { title: 'Wireframing', detail: 'Created low-fidelity layouts to validate the application structure.' },
-      { title: 'High-Fidelity UI Design', detail: 'Designed polished mobile interfaces using a consistent visual system.' },
-      { title: 'Interactive Prototype', detail: 'Connected screens into a clickable prototype for demonstration.' },
-    ],
-    impact: [
-      { label: 'Task Management', before: 'Multiple Applications', after: 'Single Integrated Platform' },
-      { label: 'Assignment Tracking', before: 'Manual Monitoring', after: 'Centralized Dashboard' },
-      { label: 'Prototype', before: 'Concept Only', after: 'Interactive High-Fidelity Prototype' },
-    ],
-    lessonsLearned: [
-      'Designing interfaces requires balancing usability with visual consistency.',
-      'Well-structured user flows reduce unnecessary interactions and improve task completion.',
-      'Interactive prototypes help communicate product ideas before development.',
-    ],
-    businessInsight:
-      'Good user experience is created by reducing unnecessary interactions rather than adding more features. Designing intuitive navigation, clear information hierarchy, and streamlined task management helps users achieve their goals with less effort.',
-    tech: ['Figma', 'User Flow',
+
+    {
+      title: 'SRS Documentation',
+      detail: 'Documented the system requirements, workflows, interfaces, and proposed solution in an SRS.',
+      output: 'Software Requirements Specification (SRS)',
+      outputLink: 'https://github.com/dwmhr12/business-analyst-portfolio/blob/main/TaskSync/01_Software_Requirements_Specification.pdf',
+    },
+  ],
+  solutionIntro: [
+    'Based on user needs and requirements, TaskSync was designed to manage academic tasks, schedules, and deadlines through a single application.',
+  ],
+  solutions: [
+    'Centralized academic task management',
+    'Integrated task and schedule management',
+    'Deadline and reminder management',
+    'Structured academic workflows',
+  ],
+  businessInsight: [
+  'The analysis found that academic tasks, schedules, and deadlines were managed across multiple platforms, making it harder to track activities consistently.', 'TaskSync addresses this by integrating these activities into a single application.',
+  ],
+  outcomeIntro: [
+    'The proposed system is expected to:',
+  ],
+  outcomes: [
+    'Simplify academic task and schedule management.',
+    'Improve visibility of upcoming assignments and deadlines.',
+    'Reduce the need to manage academic activities across multiple platforms.',
+    'Provide a structured workflow for managing academic tasks.',
+  ],
+  tech: [
+    'Software Requirements Specification (SRS)',
+    'Requirement Analysis',
+    'Functional Requirements',
+    'Non-Functional Requirements',
+    'Use Case Diagram',
+    'BPMN',
+    'Activity Diagram',
+    'System Flow',
     'Wireframing',
-    'Information Architecture',
-    'High-Fidelity Prototyping',
-    'Design System',],
-    prototype: 'https://www.figma.com/proto/CWJeae8DRxqByskWcu3s0T/TaskSync?node-id=0-1&t=H3I0XVVvMMDSH7Sl-1',
-    link: '',
-    document: '',
-    image: '/uiuxtasksync.jpg',
+    'Figma',
+  ],
+  prototype: 'https://www.figma.com/proto/CWJeae8DRxqByskWcu3s0T/TaskSync?node-id=0-1&t=H3I0XVVvMMDSH7Sl-1',
+  link: '',
+  document: 'https://intip.in/TaskySync',
+  image: '/coverTasksync.png',
   },
   {
-    title: 'IKN News Sentiment Analysis',
-    track: ['data-engineer'],
-    description:
-      'Built an end-to-end NLP pipeline to analyze public sentiment toward Indonesia’s new capital city (IKN) by collecting, preprocessing, and classifying online news articles using a fine-tuned IndoBERT model.',
-    categories: ['Data Engineering', 'Natural Language Processing'],
-    overview:
-      'his academic team project focused on analyzing online media sentiment regarding the relocation of Indonesia’s capital city (IKN). The project covered the complete NLP workflow, including web scraping, text preprocessing, dataset balancing, sentiment classification, linguistic analysis (TF-IDF, POS Tagging, and Named Entity Recognition), and model evaluation by comparing IndoBERT with traditional machine learning approaches.',
-    preview: '/ikn.png',
-    info: {
-      role: 'Data Engineer',
-      timeline: '9 Weeks',
-      type: 'Academic Project',
-      team: 'Team',
-      tools: ['Python','BeautifulSoup',
-      'Pandas',
-      'NLTK',
-      'PySastrawi',
-      'Hugging Face Transformers',
-      'IndoBERT',
-      'Scikit-learn',
-      'spaCy',
-      'Matplotlib' ],
+  title: 'ERP-Based Employee Leave Management System using Odoo',
+  track: ['system-analyst', 'ERP', 'Business Process Modeling'],
+  description:
+    'Analyzed and redesigned an employee leave management process, defined system requirements, and mapped the improved workflow to Odoo.',
+  categories: ['System Analysis & ERP Implementation Case Study'],
+  hook:
+    'System Analyst  — analyzed and redesigned an ERP-based leave management workflow and mapped the proposed solution to Odoo.',
+  gallery: [
+    {
+      src: 'https://raw.githubusercontent.com/dwmhr12/business-analyst-portfolio/main/Employee-Leave-Management-ERP/03_As%20Is%20BPMN.png',
+      label: 'As-Is Process',
+      caption: 'BPMN model of the existing leave management process',
     },
-    problems: [
-      'Public opinion regarding the IKN project was spread across numerous online news portals, making large-scale analysis difficult.',
-      'Raw news articles required extensive preprocessing before they could be used for NLP tasks.',
-      'Traditional text classification methods struggled to capture contextual sentiment in Indonesian news articles.',
-    ],
-    responsibilities: [
-      { title: 'Data Acquisition', detail: 'Collected 162 online news articles using Google Dorking and automated web scraping with BeautifulSoup.' },
-      { title: 'Data Preprocessing', detail: 'Built preprocessing pipelines including cleaning, tokenization, stopword removal, stemming, lemmatization, and text normalization.' },
-      { title: 'Dataset Engineering', detail: 'Performed manual labeling, class balancing, and data augmentation to prepare datasets for supervised learning.' },
-      { title: 'NLP & Machine Learning', detail: 'Implemented and evaluated fine-tuned IndoBERT, TF-IDF + Logistic Regression, and TF-IDF + Support Vector Machine models.' },
-      { title: 'Data Analysis', detail: 'Conducted sentiment distribution analysis, TF-IDF keyword extraction, POS Tagging, Named Entity Recognition, and visualization.' },
-    ],
-    process: [
-      { title: 'Data Collection', detail: 'Collected news articles from multiple Indonesian media outlets using Google Dorking and web scraping.' },
-      { title: 'Preprocessing', detail: 'Cleaned and normalized textual data through tokenization, stopword removal, stemming, and lemmatization.' },
-      { title: 'Dataset Preparation', detail: 'Balanced sentiment classes through undersampling and NLP-based data augmentation techniques.' },
-      { title: 'Model Training', detail: 'Fine-tuned IndoBERT for sentiment classification and compared it with TF-IDF-based Logistic Regression and SVM baselines.' },
-      { title: 'Evaluation & Insights', detail: 'Evaluated model performance using Accuracy, Precision, Recall, F1-score, confusion matrices, and linguistic analysis.' },
-    ],
-    impact: [
-      { label: 'News Articles', before: 'Raw Online Articles', after: '162 Structured News Documents' },
-      { label: 'Dataset', before: 'Imbalanced Classes', after: 'Balanced 100:100:100 Dataset' },
-      { label: 'Model Performance', before: 'TF-IDF + SVM (78%)', after: 'Fine-tuned IndoBERT (82%)' },
-    ],
-    lessonsLearned: [
-      'Data quality and preprocessing significantly influence NLP model performance.',
-      'Transformer-based models capture contextual meaning better than traditional TF-IDF approaches.',
-      'Balanced datasets improve model generalization and reduce prediction bias across sentiment classes.',
-    ],
-    businessInsight:
-      'Analyzing media sentiment provides valuable insights into public perception of large-scale government initiatives. Combining data engineering with NLP enables organizations and policymakers to monitor public opinion more accurately and make better communication decisions.',
-    tech: ['Python', 'BeautifulSoup',
+    {
+      src: 'https://raw.githubusercontent.com/dwmhr12/business-analyst-portfolio/main/Employee-Leave-Management-ERP/04_Process%20Gap%20Analysis.png',
+      label: 'Process Gap',
+      caption: 'Identified gaps and improvement opportunities in the existing process',
+    },
+    {
+      src: 'https://raw.githubusercontent.com/dwmhr12/business-analyst-portfolio/main/Employee-Leave-Management-ERP/05_To-Be%20BPMN.png',
+      label: 'To-Be Process',
+      caption: 'Redesigned leave management workflow using BPMN',
+    },
+    {
+      src: '/odoo1.png',
+      label: 'Odoo Solution',
+      caption: 'Mapping the proposed workflow to Odoo Leave Management',
+    },
+  ],
+  overview: [
+    'This project focuses on analyzing and improving an employee leave management process through an ERP-based solution using Odoo.',
+    'The project covers process analysis, requirements definition, workflow redesign, and mapping the proposed system to Odoo Leave Management.',
+  ],
+  note:
+    'The organization, process metrics, and business conditions used in this case study are simulated assumptions created for portfolio purposes.',
+  preview: '/odoo1.png',
+  problems: [
+    'Leave requests are handled manually through email, making the approval process difficult to track.',
+    'Leave approvals can take 3–5 working days, delaying confirmation for employees.',
+    'Leave records are manually maintained in spreadsheets, increasing the risk of data inconsistency and administrative errors.',
+    'Employees have limited visibility into request status, resulting in repeated follow-ups with HR.',
+    'Leave information is distributed across emails and spreadsheets, making monitoring and reporting less efficient.',
+  ],
+  process: [
+    {
+      title: 'Business Problem Analysis',
+      detail:
+        'Identified key problems and their impacts on the existing leave management process.',
+      output: 'Business Problem Analysis Document',
+      outputLink:
+        'https://github.com/dwmhr12/business-analyst-portfolio/blob/main/Employee-Leave-Management-ERP/01_Business_Problem_Analysis.pdf',
+    },
+    {
+      title: 'Stakeholder Analysis',
+      detail:
+        'Identified key stakeholders and their roles in the leave management process.',
+      output: 'Stakeholder Analysis',
+      outputLink:
+        'https://github.com/dwmhr12/business-analyst-portfolio/blob/main/Employee-Leave-Management-ERP/02_Stakeholder_Analysis.xlsx',
+    },
+    {
+      title: 'As-Is Process Modeling',
+      detail:
+        'Modeled the existing leave management workflow using BPMN.',
+      output: 'As-Is BPMN',
+      outputLink:
+        'https://github.com/dwmhr12/business-analyst-portfolio/blob/main/Employee-Leave-Management-ERP/03_As%20Is%20BPMN.png',
+    },
+    {
+      title: 'Process Gap Analysis',
+      detail:
+        'Analyzed process gaps and identified opportunities for improvement.',
+      output: 'Process Gap Analysis',
+      outputLink:
+        'https://github.com/dwmhr12/business-analyst-portfolio/blob/main/Employee-Leave-Management-ERP/04_Process%20Gap%20Analysis.png',
+    },
+    {
+      title: 'To-Be Process Design',
+      detail:
+        'Designed an improved leave management workflow using BPMN.',
+      output: 'To-Be BPMN',
+      outputLink:
+        'https://github.com/dwmhr12/business-analyst-portfolio/blob/main/Employee-Leave-Management-ERP/05_To-Be%20BPMN.png',
+    },
+    {
+      title: 'Functional Requirements',
+      detail:
+        'Defined functional requirements for the proposed leave management solution.',
+      output: 'Functional Requirement Document',
+      outputLink:
+        'https://github.com/dwmhr12/business-analyst-portfolio/blob/main/Employee-Leave-Management-ERP/06_Functional%20Requirement%20Document.pdf',
+    },
+    {
+      title: 'Odoo Configuration',
+      detail:
+        'Mapped the proposed process and requirements to Odoo Leave Management.',
+      output: 'Odoo Configuration Documentation',
+      outputLink:
+        'https://github.com/dwmhr12/business-analyst-portfolio/blob/main/Employee-Leave-Management-ERP/07_Odoo%20Configuration%20Documentation.pdf',
+    },
+  ],
+  solutionIntro: [
+    'Odoo was proposed to streamline leave management by centralizing data, standardizing approvals, and improving request tracking through the Employee, Time Off, and Approvals modules.',
+  ],
+  solutions: [
+    'Employee data management',
+    'Leave requests and allocation',
+    'Approval workflows',
+    'Leave tracking and monitoring',
+  ],
+  businessInsight: [
+    'The analysis found that fragmented communication and manual record keeping reduced process visibility and efficiency.',
+    'The redesigned workflow addresses these gaps by centralizing leave information and standardizing approvals',
+  ],
+  outcomeIntro: [
+    'The proposed solution is expected to:',
+  ],
+  outcomeStats: [
+    {
+      label: 'Approval Time',
+      before: '3–5 working days',
+      after: '< 1 day',
+      icon: 'clock',
+    },
+    {
+      label: 'Process Steps',
+      before: '8 manual steps',
+      after: '4 digital steps',
+      icon: 'check',
+    },
+  ],
+  outcomes: [
+    'Digitalize the leave request and approval process.',
+    'Centralize employee and leave data.',
+    'Improve visibility of leave request status.',
+    'Reduce repetitive administrative activities.',
+    'Simplify HR monitoring and reporting.',
+  ],
+  tech: [
+  'Requirements Analysis',
+  'Functional Requirements',
+  'Process Modeling',
+  'Workflow Design',
+  'BPMN',
+  'ERP',
+  'Odoo',
+],
+  prototype: '',
+  link: '',
+  document:
+    'https://github.com/dwmhr12/business-analyst-portfolio/tree/main/Employee-Leave-Management-ERP',
+  image: '/odoo1.png',
+},
+{
+  title: 'AI Knowledge Management System for Renewable Energy Regulations',
+  track: ['system-analyst'],
+  description:
+    'Analyzed requirements and designed the system flow for an AI-powered knowledge management system for renewable energy regulations.',
+  categories: ['System Analysis & Application Design'],
+  hook:
+    'System Analyst — analyzed requirements and designed the system flow, UML models, and UI/UX for an AI-powered regulatory knowledge system.',
+  gallery: [
+    {
+    src: '/MockupAi.png',
+    label: 'UI/UX Design',
+    caption: 'High-fidelity mockup of the proposed application',
+   },
+    {
+      src: '/Ai.png',
+      label: 'System Design',
+      caption: 'System design and UI/UX for the proposed AI knowledge management system',
+    },
+  ],
+  overview: [
+    'This project focused on designing an AI-powered knowledge management system to help users search and access renewable energy regulations in Indonesia.',
+    'The project covered requirement analysis, business process modeling, system modeling, and UI/UX design documented in a Business Requirement Document (BRD).',
+  ],
+  note:
+    'This project was developed as an academic project, with the proposed system and requirements documented for future application development.',
+  preview: '/Ai.png',
+  problems: [
+    'Renewable energy regulations are scattered across multiple documents.',
+    'Finding relevant regulations is time-consuming and inefficient.',
+    'Users have limited access to a centralized system for searching and retrieving regulatory information.',
+  ],
+  process: [
+    {
+      title: 'Requirement Gathering',
+      detail:
+        'Identified user needs and requirements for accessing and searching regulatory information.',
+      output: 'Business & User Requirements',
+      outputLink: 'https://github.com/dwmhr12/business-analyst-portfolio/tree/main/AI%20Knowledge%20Management%20System%20for%20Renewable%20Energy%20Regulations',
+    },
+
+    {
+      title: 'Requirement Analysis',
+      detail:
+        'Analyzed requirements and translated them into functional and non-functional system requirements.',
+      output: 'System Requirements',
+      outputLink: 'https://github.com/dwmhr12/business-analyst-portfolio/tree/main/AI%20Knowledge%20Management%20System%20for%20Renewable%20Energy%20Regulations',
+    },
+
+    {
+      title: 'Business Process Modeling',
+      detail:
+        'Modeled the information search and retrieval workflow based on identified requirements.',
+      output: 'Business Process Model',
+      outputLink: 'https://github.com/dwmhr12/business-analyst-portfolio/tree/main/AI%20Knowledge%20Management%20System%20for%20Renewable%20Energy%20Regulations',
+    },
+
+    {
+      title: 'System Modeling',
+      detail:
+        'Modeled system structure and behavior using UML diagrams.',
+      output: 'UML Diagrams & System Design',
+      outputLink: 'https://github.com/dwmhr12/business-analyst-portfolio/tree/main/AI%20Knowledge%20Management%20System%20for%20Renewable%20Energy%20Regulations',
+    },
+
+    {
+      title: 'UI/UX Design',
+      detail:
+        'Designed wireframes and interfaces to visualize the proposed system.',
+      output: 'Wireframes & UI/UX Design',
+      outputLink: 'https://github.com/dwmhr12/business-analyst-portfolio/blob/main/AI%20Knowledge%20Management%20System%20for%20Renewable%20Energy%20Regulations/08_Prototype.pdf',
+    },
+
+    {
+      title: 'BRD Documentation',
+      detail:
+        'Documented business needs, system requirements, processes, and proposed solution in a BRD.',
+      output: 'Business Requirement Document (BRD)',
+      outputLink: 'https://github.com/dwmhr12/business-analyst-portfolio/tree/main/AI%20Knowledge%20Management%20System%20for%20Renewable%20Energy%20Regulations',
+    },
+  ],
+  solutionIntro: [
+    'The proposed system provides a centralized interface for searching and accessing renewable energy regulations using AI-powered information retrieval.',
+  ],
+  solutions: [
+    'Centralized regulatory knowledge management',
+    'AI-powered regulation search',
+    'Structured regulatory information retrieval',
+    'User-focused search interface',
+  ],
+  businessInsight: [
+    'The analysis found that the main challenge was not simply the volume of regulations, but the difficulty of finding and accessing relevant information across scattered documents. This became the basis for designing a centralized search and retrieval workflow.',
+  ],
+  outcomeIntro: [
+    'The proposed system is expected to:',
+  ],
+  outcomes: [
+    'Simplify access to renewable energy regulations.',
+    'Reduce the time needed to find relevant regulatory information.',
+    'Centralize regulatory knowledge and information retrieval.',
+    'Provide a structured workflow for searching regulatory documents.',
+  ],
+  tech: [
+    'Requirements Analysis',
+    'Functional Requirements',
+    'Non-Functional Requirements',
+    'UML',
+    'Use Case Diagram',
+    'Process Modeling',
+    'System Flow',
+    'UI/UX Design',
+  ],
+  prototype: 'https://github.com/dwmhr12/business-analyst-portfolio/blob/main/AI%20Knowledge%20Management%20System%20for%20Renewable%20Energy%20Regulations/08_Prototype.pdf',
+  link: '',
+  document: 'https://github.com/dwmhr12/business-analyst-portfolio/tree/main/AI%20Knowledge%20Management%20System%20for%20Renewable%20Energy%20Regulations',
+  image: '/CoverAi.png',
+},
+{
+  title: 'IKN News Sentiment Analysis',
+  track: ['data-engineer'],
+  description:
+    'Built an end-to-end NLP pipeline to collect, preprocess, and classify Indonesian news articles using a fine-tuned IndoBERT model.',
+  categories: ['Data & AI', 'Natural Language Processing'],
+  hook:
+    'Data/NLP Engineer — built an end-to-end pipeline to collect, process, and classify 162 Indonesian news articles using IndoBERT.',
+  gallery: [
+    {
+      src: '/coverIKN.png',
+      label: 'NLP Pipeline',
+      caption: 'End-to-end NLP pipeline for Indonesian news sentiment analysis',
+    },
+  ],
+  overview: [
+    'This academic team project focused on analyzing media sentiment toward the relocation of Indonesia’s capital city (IKN).',
+    'The project covered data collection, text preprocessing, dataset preparation, sentiment classification, linguistic analysis, and model evaluation using both IndoBERT and traditional machine learning approaches.',
+  ],
+  note:
+    'This project was developed as an academic team project.',
+  preview: '/ikn.png',
+  problems: [
+    'Public opinion regarding IKN was distributed across numerous online news sources, making large-scale analysis difficult.',
+    'Raw news articles required extensive preprocessing before they could be used for NLP tasks.',
+    'Traditional text classification methods may struggle to capture contextual sentiment in Indonesian news articles.',
+  ],
+  process: [
+    {
+      title: 'Data Collection',
+      detail:
+        'Collected news articles from multiple Indonesian media outlets using Google Dorking and web scraping.',
+      output: 'Raw News Dataset (162 Articles)',
+      outputLink: '',
+    },
+
+    {
+      title: 'Data Preprocessing',
+      detail:
+        'Cleaned and normalized text through tokenization, stopword removal, stemming, and lemmatization.',
+      output: 'Cleaned Text Dataset',
+      outputLink: '',
+    },
+
+    {
+      title: 'Dataset Preparation',
+      detail:
+        'Balanced sentiment classes using undersampling and NLP-based data augmentation techniques.',
+      output: 'Balanced Labeled Dataset',
+      outputLink: '',
+    },
+
+    {
+      title: 'Model Training',
+      detail:
+        'Fine-tuned IndoBERT for sentiment classification and compared its performance with TF-IDF-based Logistic Regression and SVM.',
+      output: 'Trained Sentiment Classification Models',
+      outputLink: '',
+    },
+
+    {
+      title: 'Evaluation & Analysis',
+      detail:
+        'Evaluated model performance using Accuracy, Precision, Recall, F1-score, confusion matrices, and linguistic analysis.',
+      output: 'Model Evaluation Report',
+      outputLink:
+        'https://docs.google.com/document/d/1u_P-FrYETWmldzMoqlwKZZfGJNgp0m9L0_1GOZMjf0Q/edit?usp=sharing',
+    },
+  ],
+  solutionIntro: [
+    'The project combined web scraping, NLP, and machine learning to transform unstructured news articles into structured sentiment insights.',
+  ],
+  solutions: [
+    'Automated news data collection',
+    'Text preprocessing and normalization',
+    'Sentiment classification using IndoBERT',
+    'Comparative model evaluation',
+  ],
+  businessInsight: [
+    'The analysis showed how unstructured news data can be transformed into sentiment insights to better understand public perception of large-scale initiatives.',
+  ],
+  outcomeIntro: [
+    'The project resulted in:',
+  ],
+  outcomes: [
+    'A structured dataset of 162 Indonesian news articles.',
+    'An end-to-end NLP pipeline for sentiment analysis.',
+    'A fine-tuned IndoBERT sentiment classification model.',
+    'A comparison between transformer-based and traditional machine learning approaches.',
+  ],
+  tech: [
+    'Python',
+    'BeautifulSoup',
     'Pandas',
     'NLTK',
     'PySastrawi',
@@ -390,130 +697,214 @@ export const projects = [
     'Logistic Regression',
     'Support Vector Machine',
     'spaCy',
-    'Matplotlib',],
-    prototype: '',
-    link: '',
-    document: 'https://docs.google.com/document/d/1u_P-FrYETWmldzMoqlwKZZfGJNgp0m9L0_1GOZMjf0Q/edit?usp=sharing',
-    image: '/ikn2.png',
+    'Matplotlib',
+  ],
+  prototype: '',
+  link: '',
+  document:
+    'https://docs.google.com/document/d/1u_P-FrYETWmldzMoqlwKZZfGJNgp0m9L0_1GOZMjf0Q/edit?usp=sharing',
+  image: '/coverIKN.png',
+},
+{
+  title: 'PLN NP – Enterprise ETL Pipeline Automation',
+  track: ['data-engineer'],
+  description:
+    'Built automated ETL pipelines using Apache NiFi to integrate data from spreadsheets and REST APIs into a centralized data mart.',
+  categories: ['Data Engineering', 'ETL Pipeline'],
+  hook:
+    'Data Engineer Intern — built automated ETL pipelines in Apache NiFi, integrating multi-source data into a centralized data mart.',
+  gallery: [
+      {
+    src: '/ArsitekturPLNNP.png',
+    label: 'ETL Pipeline Architecture',
+    caption: 'Architecture of the automated ETL pipeline for multi-source data integration',
   },
-  {
-    title: 'Enterprise ETL Pipeline Automation',
-    track: ['data-engineer'],
-    description:
-      'Designed and implemented automated ETL pipelines using Apache NiFi to integrate data from spreadsheets and REST APIs into a centralized data mart, supporting enterprise reporting and analytics.',
-    categories: ['Data Engineering', 'ETL Pipeline'],
-    overview:
-      'During my internship, I developed multiple automated ETL pipelines using Apache NiFi to process operational data from spreadsheets and REST APIs. The solution covered the complete ETL workflow, including extraction, validation, data cleansing, standardization, metadata enrichment, scheduling, failure notifications, and incremental loading into a centralized data mart.',
-    preview: 'plnnp.png',
-    info: {
-      role: 'Data Engineer',
-      timeline: '3 Months',
-      type: 'Internship Project',
-      team: 'Team',
-      tools: ['Apache NiFi','SQL',
-      'REST API',
-      'CSV',
-      'Microsoft Excel',
-      'PostgreSQL'  ],
+  ],
+  overview: [
+    'During my internship, I built multiple automated ETL pipelines using Apache NiFi to process operational data from spreadsheets and REST APIs.',
+    'The pipelines covered data extraction, validation, cleansing, standardization, metadata enrichment, scheduling, and incremental loading into a centralized data mart.',
+  ],
+  note:
+    'This project was developed during my internship at Wiratek Solusi Asia.',
+  preview: '/plnnp.png',
+  problems: [
+    'Business data came from multiple sources, including spreadsheets and REST APIs, making manual integration inefficient.',
+    'Data quality issues such as missing values and duplicate records affected data consistency.',
+    'The organization required automated pipelines with scheduling, monitoring, and reliable incremental loading.',
+  ],
+  process: [
+    {
+      title: 'Data Extraction',
+      detail:
+        'Extracted data from Excel files and REST APIs through automated Apache NiFi workflows.',
+      output: 'Raw Extracted Data',
+      outputLink: '',
     },
-    problems: [
-      'Business data originated from multiple sources including spreadsheets and REST APIs, making manual integration inefficient.',
-      'Data quality issues such as missing values and duplicate records affected reporting accuracy.',
-      'The organization required automated pipelines with scheduling, monitoring, and reliable incremental loading.',
-    ],
-    responsibilities: [
-      { title: 'ETL Pipeline Development', detail: 'Developed multiple Apache NiFi pipelines for extracting, transforming, and loading operational data.' },
-      { title: 'Data Integration', detail: 'Integrated spreadsheet-based and API-based data into a centralized data mart.' },
-      { title: 'Data Validation', detail: 'Implemented validation rules for mandatory fields, duplicate detection, and pipeline failure handling.' },
-      { title: 'Pipeline Automation', detail: 'Configured scheduled execution, automated email notifications, and incremental data processing.' },
-      { title: 'Database Loading', detail: 'Implemented upsert and soft-delete mechanisms to maintain historical records in the data mart.' },
-    ],
-    process: [
-      { title: 'Data Extraction', detail: 'Extracted data from Excel files and REST APIs using automated Apache NiFi workflows.' },
-      { title: 'Data Cleansing', detail: 'Validated mandatory fields, removed duplicate records, and handled pipeline failures through automated notifications.' },
-      { title: 'Data Standardization', detail: 'Standardized date formats, numeric fields, and string values to ensure data consistency.' },
-      { title: 'Metadata Enrichment', detail: 'Added audit metadata including timestamps, creator information, and soft-delete attributes.' },
-      { title: 'Data Loading', detail: 'Loaded transformed datasets into a centralized data mart using upsert and incremental loading strategies.' },
-    ],
-    impact: [
-      { label: 'Data Sources', before: 'Manual Integration', after: 'Automated ETL Pipelines' },
-      { label: 'Data Processing', before: 'Manual Validation', after: 'Automated Validation & Cleansing' },
-      { label: 'Data Warehouse', before: 'Fragmented Data', after: 'Centralized Data Mart' },
-    ],
-    lessonsLearned: [
-      'Building production ETL pipelines requires more than moving data; robust validation and monitoring are essential.',
-      'Automating data quality checks significantly improves pipeline reliability.',
-      'Incremental loading and soft-delete strategies help preserve historical data while keeping datasets up to date.',
-    ],
-    businessInsight:
-      'Automated ETL pipelines reduce manual effort, improve data quality, and provide reliable, up-to-date data for enterprise reporting and business intelligence.',
-    tech: ['Apache NiFi', 'SQL',
+
+    {
+      title: 'Data Validation & Cleansing',
+      detail:
+        'Validated required fields, handled duplicate records, and managed pipeline failures through automated notifications.',
+      output: 'Validated & Cleaned Data',
+      outputLink: '',
+    },
+
+    {
+      title: 'Data Standardization',
+      detail:
+        'Standardized date formats, numeric fields, and string values to maintain data consistency.',
+      output: 'Standardized Dataset',
+      outputLink: '',
+    },
+
+    {
+      title: 'Metadata Enrichment',
+      detail:
+        'Added audit metadata such as timestamps, creator information, and soft-delete attributes.',
+      output: 'Enriched Dataset',
+      outputLink: '',
+    },
+
+    {
+      title: 'Data Loading',
+      detail:
+        'Loaded transformed data into a centralized data mart using upsert and incremental loading strategies.',
+      output: 'Centralized Data Mart',
+      outputLink: '',
+    },
+  ],
+  solutionIntro: [
+    'The solution automated the end-to-end data integration workflow, from extracting multi-source data to loading validated and standardized data into a centralized data mart.',
+  ],
+  solutions: [
+    'Multi-source data integration',
+    'Automated data validation and cleansing',
+    'Incremental data loading',
+    'Centralized data mart',
+  ],
+  businessInsight: [
+    'The project showed how automated data pipelines can reduce manual data integration and improve the consistency and reliability of data used for reporting and analytics.',
+  ],
+  outcomeIntro: [
+    'The project resulted in:',
+  ],
+  outcomes: [
+    'Automated ETL workflows using Apache NiFi.',
+    'Integrated data from spreadsheets and REST APIs.',
+    'Standardized and validated operational data.',
+    'Centralized transformed data in a data mart.',
+  ],
+  tech: [
+    'Apache NiFi',
+    'SQL',
     'REST API',
     'ETL',
-    'CSV',
     'Excel',
+    'CSV',
     'PostgreSQL',
     'Data Validation',
     'Data Cleansing',
-    'Data Warehousing',],
-    prototype: '',
-    link: '',
-    document: '',
-    image: '/plnnp.png',
+    'Data Warehousing',
+  ],
+  prototype: '',
+  link: '',
+  document: '',
+  image: '/plnnp.png',
+},
+{
+  title: 'PLN Insight Generatif – RAG Data Pipeline',
+  track: ['data-engineer'],
+  description:
+    'Built an automated document ingestion pipeline for a Retrieval-Augmented Generation (RAG) system, from PDF extraction and text processing to vector storage in Milvus.',
+  categories: ['Data Engineering', 'AI Infrastructure'],
+  hook:
+    'Data Engineer Intern — built the document ingestion pipeline for an internal RAG system, from PDF extraction to vector storage in Milvus.',
+  gallery: [
+      {
+    src: '/ArsitekturPLNIG.png',
+    label: 'RAG Data Pipeline',
+    caption:
+      'Architecture of the document processing pipeline for the RAG system',
   },
-  {
-    title: 'PLN Insight Generatif – RAG Data Pipeline',
-    track: ['data-engineer'],
-    description:
-      'Developed an automated data ingestion pipeline for a Retrieval-Augmented Generation (RAG) system by extracting PDF documents, preprocessing text, generating embeddings, and storing vectors in Milvus using Python and Apache Airflow.',
-    categories: ['Data Engineering', 'AI Infrastructure'],
-    overview:
-      'During my internship, I contributed to the data engineering pipeline of PLN Insight Generatif, an internal AI knowledge management system. The project focused on building an end-to-end document processing pipeline, including PDF extraction, text cleansing, chunking, embedding generation, vector database ingestion, and workflow orchestration using Apache Airflow.',
-    preview: 'plnig.png',
-    info: {
-      role: 'Data Engineer',
-      timeline: '3 Months',
-      type: 'Internship Project',
-      team: 'Team',
-      tools: ['Python', 'Apache Airflow',
-      'Milvus',
-      'Docker',
-      'Docker Compose',
-      'MinIO',
-      'ETCD' ],
+  ],
+  overview: [
+    'During my internship, I contributed to the data engineering pipeline of PLN Insight Generatif, an internal AI knowledge management system.',
+    'The pipeline processed PDF documents through extraction, cleansing, chunking, embedding generation, and vector database ingestion, with Apache Airflow used to orchestrate the workflow.',
+  ],
+  note:
+    'This project was developed during my internship at Wiratek Solusi Asia as part of an internal generative AI initiative.',
+  preview: '/plnig.png',
+  problems: [
+    'Knowledge documents were stored as unstructured PDF files, making information retrieval inefficient.',
+    'The RAG system required structured document chunks and vector embeddings for semantic retrieval.',
+    'New documents needed to be processed consistently through an automated and repeatable pipeline.',
+  ],
+  process: [
+    {
+      title: 'Document Extraction',
+      detail:
+        'Extracted text from PDF documents using Python-based data processing scripts.',
+      output: 'Extracted Document Text',
+      outputLink: '',
     },
-    problems: [
-      'Knowledge documents were stored as unstructured PDF files, making information retrieval slow and inefficient.',
-      'AI applications required searchable vector representations instead of raw text documents.',
-      'The organization needed an automated pipeline to process new documents consistently and reliably.',
-    ],
-    responsibilities: [
-      { title: 'Document Extraction', detail: 'Built Python scripts to extract textual content from PDF documents.' },
-      { title: 'Data Preprocessing', detail: 'Implemented data cleansing and text normalization before downstream processing.' },
-      { title: 'Chunking Pipeline', detail: 'Split documents into semantic chunks suitable for embedding generation.' },
-      { title: 'Embedding Generation', detail: 'Generated vector embeddings from processed document chunks for semantic search.' },
-      { title: 'Vector Database Integration', detail: 'Inserted embeddings into Milvus and orchestrated the complete workflow using Apache Airflow.' },
-    ],
-    process: [
-      { title: 'Document Extraction', detail: 'Extracted text from PDF documents using Python-based ETL scripts.' },
-      { title: 'Data Cleansing', detail: 'Removed unnecessary characters and standardized document content.' },
-      { title: 'Document Chunking', detail: 'Segmented documents into smaller chunks optimized for vector embeddings.' },
-      { title: 'Embedding Generation', detail: 'Converted document chunks into vector embeddings for semantic retrieval.' },
-      { title: 'Vector Storage & Orchestration', detail: 'Stored embeddings in Milvus and automated the end-to-end workflow using Apache Airflow.' },
-    ],
-    impact: [
-      { label: 'Knowledge Source', before: 'Unstructured PDF Documents', after: 'Searchable Vector Database' },
-      { label: 'Processing', before: 'Manual Pipeline', after: 'Automated Airflow Workflow' },
-      { label: 'Retrieval', before: 'Keyword Search', after: 'Semantic Vector Search' },
-    ],
-    lessonsLearned: [
-      'Building AI systems requires reliable data engineering pipelines before model development.',
-      'Document chunking strategy significantly affects retrieval quality in RAG systems.',
-      'Workflow orchestration improves pipeline reliability and maintainability.',
-    ],
-    businessInsight:
-      'Automating document ingestion into a vector database enables faster knowledge retrieval and provides a scalable foundation for enterprise AI assistants based on Retrieval-Augmented Generation.',
-    tech: ['Python', 'Apache Airflow',
+
+    {
+      title: 'Data Cleansing',
+      detail:
+        'Cleaned and standardized extracted text to prepare documents for further processing.',
+      output: 'Cleaned Document Text',
+      outputLink: '',
+    },
+
+    {
+      title: 'Document Chunking',
+      detail:
+        'Segmented documents into smaller chunks suitable for embedding and semantic retrieval.',
+      output: 'Document Chunks',
+      outputLink: '',
+    },
+
+    {
+      title: 'Embedding Generation',
+      detail:
+        'Converted document chunks into vector embeddings for semantic search.',
+      output: 'Vector Embeddings',
+      outputLink: '',
+    },
+
+    {
+      title: 'Vector Storage & Orchestration',
+      detail:
+        'Stored embeddings in Milvus and orchestrated the document processing workflow using Apache Airflow.',
+      output: 'Milvus Vector Database & Airflow Pipeline',
+      outputLink: '',
+    },
+  ],
+  solutionIntro: [
+    'The solution automated the document ingestion workflow, transforming unstructured PDF files into searchable vector representations for the RAG system.',
+  ],
+  solutions: [
+    'Automated PDF document processing',
+    'Text cleansing and document chunking',
+    'Vector embedding generation',
+    'Vector storage in Milvus',
+    'Workflow orchestration with Apache Airflow',
+  ],
+  businessInsight: [
+    'The project demonstrated how automated document pipelines can turn unstructured enterprise documents into structured, searchable data that supports AI-powered knowledge retrieval.',
+  ],
+  outcomeIntro: [
+    'The project resulted in:',
+  ],
+  outcomes: [
+    'An automated document ingestion pipeline for the RAG system.',
+    'Processed and structured document data for semantic retrieval.',
+    'Vector embeddings stored in Milvus.',
+    'An orchestrated workflow using Apache Airflow.',
+  ],
+  tech: [
+    'Python',
+    'Apache Airflow',
     'Milvus',
     'Docker',
     'Docker Compose',
@@ -521,19 +912,27 @@ export const projects = [
     'ETCD',
     'Vector Database',
     'ETL',
-    'RAG Pipeline'],
-    prototype: '',
-    link: '',
-    document: '',
-    image: 'plnig.png',
-  },
+    'RAG Pipeline',
+  ],
+  prototype: '',
+  link: '',
+  document: '',
+  image: '/plnig.png',
+},
 ]
+
+// Tempel "contact" (CTA di bawah modal, poin 7) ke SEMUA project sekaligus
+// dari satu sumber (konstanta CONTACT di atas), biar nggak perlu diulang
+// manual di tiap object. Kalau suatu saat mau CTA yang beda per project,
+// tinggal override field "contact" langsung di object project itu.
+export const projects = rawProjects.map((project) => ({
+  contact: CONTACT,
+  ...project,
+}))
 
 // Daftar filter yang ditampilkan di halaman (urutan sesuai array ini)
 export const tracks = [
   { key: 'all', label: 'All' },
-  { key: 'system-analyst', label: 'Business Analyst' },
-  { key: 'data-engineer', label: 'Data Engineer' },
-  { key: 'ui-ux', label: 'UI/UX Designer' },
-  
+  { key: 'system-analyst', label: 'System Analyst' },
+  { key: 'data-engineer', label: 'Data & AI Product' },
 ]

@@ -8,7 +8,7 @@ export const profile = {
   name: 'Dewi Maharani',
   initials: 'DM', // dipakai di logo pojok kiri atas
   greeting: 'Hello, I am Rani',
-  shortTagline: 'Business • Systems • Data • Design',
+  shortTagline: 'Systems • Data • Design',
 
   role: 'System Analyst • Data Engineer • UI/UX Design',
   tagline: '',
@@ -18,13 +18,13 @@ export const profile = {
   heroYear: '2026',
 
   // Hashtag kecil di halaman Home (kiri atas)
-  tags: ['#BusinessAnalyst','#SystemAnalyst', '#DataEngineering', '#AIEngineer', '#UIUXDesigner'],
+  tags: ['#System Analyst | Data & AI Product'],
 
-  aboutTitle: 'Business & System Analyst',
+  aboutTitle: 'System Analyst | Data & AI Product',
   // Paragraf singkat tentang kamu (2-4 kalimat cukup)
-  about: `I enjoy understanding how a business process works before thinking about the solution. That's why I'm interested in business analysis and system design. Through academic and personal projects, I've gained experience in requirement analysis, business process modeling, BRD and SRS documentation, UML design, database design, and UI/UX prototyping with Figma. I enjoy working at the intersection of business, systems, and data to create practical solutions`,
+  about: `I'm interested in understanding how systems work and how users, applications, and data interact. Through academic, professional, and personal projects, I've worked on requirements analysis, application flows, system processes, and translating requirements into practical technical solutions. I have experience with SRS, UML, database design, REST API integration, ETL workflows, and UI/UX prototyping with Figma. I enjoy working across systems, data, and AI to understand problems and design practical solutions.`,
 
-  photoUrl: '/rani.jpeg', // isi link foto kamu (atau taruh file di /public lalu isi "/nama-file.jpg")
+  photoUrl: '/FOTO2.png', // isi link foto kamu (atau taruh file di /public lalu isi "/nama-file.jpg")
   location: 'Surabaya, Indonesia',
   email: 'dewimaharani170104@gmail.com',
   cvUrl: 'https://drive.google.com/file/d/18hNo76zwJMMCePQB20qzhcVgqRu4B8ec/view?usp=drive_link', // link CV Google Drive
@@ -41,7 +41,7 @@ export const profile = {
       title: 'Bachelor of Information Systems',
       place: 'Institut Teknologi Sepuluh Nopember (ITS)',
       period: '2022 — 2026',
-      score: 'GPA 3.55 / 4.00',
+      score: 'GPA 3.57 / 4.00',
     },
   ],
 

@@ -22,7 +22,7 @@ export const profile = {
 
   aboutTitle: 'System Analyst | Data & AI Product',
   // Paragraf singkat tentang kamu (2-4 kalimat cukup)
-  about: `I'm interested in understanding how systems work and how users, applications, and data interact. Through academic, professional, and personal projects, I've worked on requirements analysis, application flows, system processes, and translating requirements into practical technical solutions. I have experience with SRS, UML, database design, REST API integration, ETL workflows, and UI/UX prototyping with Figma. I enjoy working across systems, data, and AI to understand problems and design practical solutions.`,
+  about: `I'm interested in understanding how systems work and how users, applications, and data interact. Through academic, professional, and personal projects, I've worked on requirements analysis, system processes, and translating requirements into technical solutions. I have experience in system analysis, database design, REST API integration, ETL workflows, and UI/UX prototyping. I enjoy working across systems, data, and AI to understand problems and design practical solutions.`,
 
   photoUrl: '/FOTO2.png', // isi link foto kamu (atau taruh file di /public lalu isi "/nama-file.jpg")
   location: 'Surabaya, Indonesia',
@@ -110,13 +110,24 @@ export const profile = {
 // Riwayat pengalaman (magang/organisasi/kerja) — urutan dari terbaru
 export const experience = [
   {
-    period: 'Jul 2026 — Present',
+    period: 'Aug 2026 — Present',
+    title: 'AI Product Builder',
+    place: 'Schoters',
+    description: [
+      'Analyzed business requirements and system workflows to define functional requirements and application flows.',
+      'Translated user needs into practical product and system solutions.',
+      'Designed and developed web applications leveraging AI agents, APIs, databases, and third-party integrations.',
+    ],
+    current: true,
+  },
+  {
+    period: 'Jul 2025 — Present',
     title: 'UI/UX Designer (Freelance)',
     place: 'Freelance (Client Projects)',
     description: [
-      'Designed high-fidelity user interfaces based on client requirements.',
-      'Created interactive prototypes using Figma.',
-      'Refined designs through multiple feedback iterations with clients.',
+      'Analyzed client requirements and user needs to define interface and interaction requirements.',
+      'Translated requirements into user flows, wireframes, and high-fidelity designs using Figma.',
+      'Refined designs through client feedback and iterative improvements.',
     ],
     current: true,
   },
@@ -125,8 +136,8 @@ export const experience = [
     title: 'Data Engineer (Contract)',
     place: 'PT Wiratek',
     description: [
-      'Built ETL data pipelines using Apache NiFi.',
-      'Processed data from Excel files and REST APIs into relational databases.',
+      'Analyzed data requirements and system workflows to design ETL solutions using Apache NiFi.',
+      'Designed data integration flows from Excel files and REST APIs into relational databases.',
       'Performed data validation, cleansing, transformation, and workflow automation.',
     ],
     current: false,
@@ -136,20 +147,9 @@ export const experience = [
     title: 'Data Engineer Intern',
     place: 'PT Wiratek',
     description: [
-      'Developed a Retrieval-Augmented Generation (RAG) pipeline for the PLN Insight Generatif project.',
-      'Processed documents through extraction, cleansing, chunking, embedding, and vector storage in Milvus.',
-      'Evaluated multiple retrieval strategies to identify the best-performing approach.',
-    ],
-    current: false,
-  },
-  {
-    period: 'Jul 2025 — Oct 2025',
-    title: 'Presentation Designer (Freelance)',
-    place: 'Fastwork',
-    description: [
-      'Designed presentation decks tailored to client requirements.',
-      'Created presentation materials and simple websites using Canva.',
-      'Revised designs based on client feedback before final delivery.',
+      'Analyzed document processing requirements and designed a RAG pipeline for the PLN Insight Generatif project.',
+      'Designed workflows covering document extraction, cleansing, chunking, embedding, and vector storage using Milvus.',
+      'Evaluated retrieval strategies to identify the most suitable approach based on system performance.',
     ],
     current: false,
   },

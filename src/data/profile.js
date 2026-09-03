@@ -27,7 +27,7 @@ export const profile = {
   photoUrl: '/FOTO2.png', // isi link foto kamu (atau taruh file di /public lalu isi "/nama-file.jpg")
   location: 'Surabaya, Indonesia',
   email: 'dewimaharani170104@gmail.com',
-  cvUrl: 'https://drive.google.com/file/d/1vVaQN466Czfns3BSxPfHiLmEUm-hvP09/view?usp=sharing', // link CV Google Drive
+  cvUrl: 'https://drive.google.com/file/d/1y4hUr_aACo0tEf3NaK_0LX5K6fGlv8Fg/view?usp=sharing', // link CV Google Drive
 
   socials: [
     { label: 'LinkedIn', handle: '@dwmhr', url: 'https://linkedin.com/in/dwmhr/' },

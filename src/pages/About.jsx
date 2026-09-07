@@ -1,4 +1,4 @@
-import { Mail, Link as LinkIcon, Code2, TrendingUp, Eye } from 'lucide-react'
+import { Mail, Link as LinkIcon, Code2, Eye } from 'lucide-react'
 import { profile } from '../data/profile'
 import Reveal from '../components/Reveal'
 
@@ -30,8 +30,8 @@ export default function About() {
         </Reveal>
 
         {/* Kartu "About me" */}
-        <div className="flex flex-col justify-between gap-6">
-          <Reveal delay={0.1} className="rounded-xl2 border border-line bg-card p-8 dark:border-line-dark dark:bg-card-dark sm:p-10">
+        <div className="flex flex-col gap-6">
+          <Reveal delay={0.1} className="flex-1 rounded-xl2 border border-line bg-card p-8 dark:border-line-dark dark:bg-card-dark sm:p-10">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="font-display text-3xl font-semibold text-primary dark:text-primary-dark sm:text-4xl">
@@ -54,18 +54,13 @@ export default function About() {
             </div>
 
             <hr className="my-6 border-line dark:border-line-dark" />
-            <div className="flex items-start justify-between gap-6">
-              <div>
-                <h3 className="font-display text-xl font-semibold text-ink dark:text-ink-dark sm:text-2xl">
-                  {profile.aboutTitle}
-                </h3>
-                <p className="mt-3 whitespace-pre-line text-base leading-relaxed text-muted dark:text-muted-dark">
-                  {profile.about}
-                </p>
-              </div>
-              <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-line bg-paper dark:border-line-dark dark:bg-paper-dark">
-                <TrendingUp className="text-primary dark:text-primary-dark" size={26} />
-              </span>
+            <div>
+              <h3 className="font-display text-xl font-semibold text-ink dark:text-ink-dark sm:text-2xl">
+                {profile.aboutTitle}
+              </h3>
+              <p className="mt-3 whitespace-pre-line text-base leading-relaxed text-muted dark:text-muted-dark">
+                {profile.about}
+              </p>
             </div>
           </Reveal>
 

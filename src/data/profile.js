@@ -8,9 +8,9 @@ export const profile = {
   name: 'Dewi Maharani',
   initials: 'DM', // dipakai di logo pojok kiri atas
   greeting: 'Hello, I am Rani',
-  shortTagline: 'Systems • Data • Design',
+  shortTagline: 'Systems • Data • Automation',
 
-  role: 'System Analyst • Data Engineer • UI/UX Design',
+  role: 'IT System Analyst • Data, AI & Automation',
   tagline: '',
 
   // Ditampilkan besar di halaman Home, di kotak biru (contoh: "PORTOFOLIO")
@@ -18,11 +18,11 @@ export const profile = {
   heroYear: '2026',
 
   // Hashtag kecil di halaman Home (kiri atas)
-  tags: ['#System Analyst | Data & AI Product'],
+  tags: ['#IT System Analyst | Data, AI & Automation'],
 
-  aboutTitle: 'System Analyst | Data & AI Product',
+  aboutTitle: 'IT System Analyst | Data, AI & Automation',
   // Paragraf singkat tentang kamu (2-4 kalimat cukup)
-  about: `I'm interested in understanding how systems work and how users, applications, and data interact. Through academic, professional, and personal projects, I've worked on requirements analysis, system processes, and translating requirements into technical solutions. I have experience in system analysis, database design, REST API integration, ETL workflows, and UI/UX prototyping. I enjoy working across systems, data, and AI to understand problems and design practical solutions.`,
+  about: `Information Systems graduate with experience in system analysis, data, AI, and automation. I've worked on requirements analysis, business processes, database design, REST API integration, ETL workflows, and RAG solutions, including automating data and business processes. My experience involves translating business requirements into system specifications, designing workflows, and developing practical technology solutions. I enjoy working across systems, data, AI, and automation to deliver effective solutions that support business needs.`,
 
   photoUrl: '/FOTO2.png', // isi link foto kamu (atau taruh file di /public lalu isi "/nama-file.jpg")
   location: 'Surabaya, Indonesia',
@@ -135,22 +135,15 @@ export const experience = [
     period: 'Nov 2025 — Jan 2026',
     title: 'Data Engineer (Contract)',
     place: 'PT Wiratek',
-    description: [
-      'Analyzed data requirements and system workflows to design ETL solutions using Apache NiFi.',
-      'Designed data integration flows from Excel files and REST APIs into relational databases.',
-      'Performed data validation, cleansing, transformation, and workflow automation.',
-    ],
+    description: [ 'Automated end-to-end ETL workflows using Apache NiFi to streamline data ingestion, transformation, and loading processes.', 'Designed data integration pipelines from Excel files and REST APIs into relational databases with automated processing.', 'Implemented data validation, error handling, and failure recovery mechanisms to improve pipeline reliability and data quality.', ],
+
     current: false,
   },
   {
     period: 'Jul 2025 — Oct 2025',
     title: 'Data Engineer Intern',
     place: 'PT Wiratek',
-    description: [
-      'Analyzed document processing requirements and designed a RAG pipeline for the PLN Insight Generatif project.',
-      'Designed workflows covering document extraction, cleansing, chunking, embedding, and vector storage using Milvus.',
-      'Evaluated retrieval strategies to identify the most suitable approach based on system performance.',
-    ],
+    description: [ 'Developed a Retrieval-Augmented Generation (RAG) pipeline for the PLN Insight Generatif project.', 'Built document processing workflows covering extraction, cleansing, chunking, embedding, and vector storage using Milvus.', 'Evaluated embedding and retrieval strategies to improve document retrieval performance and support accurate responses.', ],
     current: false,
   },
 ]
@@ -171,7 +164,7 @@ export const leadership = [
     title: 'Director of Human Resources',
     place: 'IEEE ITS Student Branch',
     points: [
-      'Led a team of 4 staff members.',
+      'Led a team of 9 staff members.',
       'Organized staff development programs.',
       'Conducted performance evaluations.',
     ],

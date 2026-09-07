@@ -92,7 +92,7 @@ export default function Resume() {
       <div className="mt-8 grid gap-6 lg:grid-cols-3">
         {/* Kolom Pengalaman */}
         <Reveal delay={0.1} className="rounded-xl2 border border-line bg-card p-6 dark:border-line-dark dark:bg-card-dark">
-          <h2 className="font-display text-xl font-semibold text-ink dark:text-ink-dark">
+          <h2 className="font-display text-2xl font-semibold text-ink dark:text-ink-dark">
             Professional Experience
           </h2>
           <ol className="mt-6 space-y-5 border-l border-line pl-5 dark:border-line-dark">
@@ -105,17 +105,17 @@ export default function Resume() {
                   ].join(' ')}
                 />
                 <Reveal delay={i * 0.08}>
-                  <span className="inline-block rounded-full bg-navy px-3 py-1 text-xs font-medium text-white">
+                  <span className="inline-block rounded-full bg-navy px-3 py-1 text-sm font-medium text-white">
                     {item.period}
                   </span>
-                  <p className="mt-2 font-display text-base font-semibold text-ink dark:text-ink-dark">
+                  <p className="mt-2 font-display text-lg font-semibold text-ink dark:text-ink-dark">
                     {item.title}
                   </p>
-                  <p className="text-sm text-muted dark:text-muted-dark">{item.place}</p>
+                  <p className="text-base text-muted dark:text-muted-dark">{item.place}</p>
                   {item.description && (
                     <>
                       {expanded[item.title] && (
-                        <ul className="mt-2 list-disc space-y-1 pl-4 text-sm leading-relaxed text-muted marker:text-primary dark:text-muted-dark dark:marker:text-primary-dark">
+                        <ul className="mt-2 list-disc space-y-1 pl-4 text-base leading-relaxed text-muted marker:text-primary dark:text-muted-dark dark:marker:text-primary-dark">
                           {item.description.map((point, i) => (
                             <li key={i}>{point}</li>
                           ))}
@@ -124,7 +124,7 @@ export default function Resume() {
                       <button
                         type="button"
                         onClick={() => toggleExpand(item.title)}
-                        className="mt-1 text-xs font-medium text-primary hover:underline dark:text-primary-dark"
+                        className="mt-1 text-sm font-medium text-primary hover:underline dark:text-primary-dark"
                       >
                         {expanded[item.title] ? 'Show Less' : 'View More'}
                       </button>
@@ -138,9 +138,9 @@ export default function Resume() {
 
         {/* Kolom Skill */}
         <Reveal delay={0.2} className="rounded-xl2 border border-line bg-card p-6 dark:border-line-dark dark:bg-card-dark">
-          <h2 className="font-display text-xl font-semibold text-ink dark:text-ink-dark">Skill</h2>
+          <h2 className="font-display text-2xl font-semibold text-ink dark:text-ink-dark">Skill</h2>
 
-          <p className="mt-6 font-mono text-xs uppercase tracking-wide text-muted dark:text-muted-dark">
+          <p className="mt-6 font-mono text-sm uppercase tracking-wide text-muted dark:text-muted-dark">
             Core Competencies
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
@@ -153,7 +153,7 @@ export default function Resume() {
 
           <hr className="my-6 border-line dark:border-line-dark" />
 
-          <p className="font-mono text-xs uppercase tracking-wide text-muted dark:text-muted-dark">
+          <p className="font-mono text-sm uppercase tracking-wide text-muted dark:text-muted-dark">
             Tools &amp; Technologies
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
@@ -167,26 +167,26 @@ export default function Resume() {
 
         {/* Kolom Pendidikan & Leadership */}
         <Reveal delay={0.3} className="rounded-xl2 border border-line bg-card p-6 dark:border-line-dark dark:bg-card-dark">
-          <h2 className="font-display text-xl font-semibold text-ink dark:text-ink-dark">
+          <h2 className="font-display text-2xl font-semibold text-ink dark:text-ink-dark">
             Education &amp; Leadership
           </h2>
 
-          <p className="mt-6 font-mono text-xs uppercase tracking-wide text-muted dark:text-muted-dark">
+          <p className="mt-6 font-mono text-sm uppercase tracking-wide text-muted dark:text-muted-dark">
             Education
           </p>
           <div className="mt-3 space-y-4">
             {profile.education.map((edu, i) => (
               <Reveal key={edu.title} delay={i * 0.08}>
                 <div className="rounded-xl2 bg-paper p-4 dark:bg-paper-dark">
-                  <span className="inline-block rounded-full bg-navy px-3 py-1 text-xs font-medium text-white">
+                  <span className="inline-block rounded-full bg-navy px-3 py-1 text-sm font-medium text-white">
                     {edu.period}
                   </span>
-                  <p className="mt-2 font-display text-base font-semibold text-ink dark:text-ink-dark">
+                  <p className="mt-2 font-display text-lg font-semibold text-ink dark:text-ink-dark">
                     {edu.title}
                   </p>
-                  <p className="text-sm text-muted dark:text-muted-dark">{edu.place}</p>
+                  <p className="text-base text-muted dark:text-muted-dark">{edu.place}</p>
                   {edu.score && (
-                    <p className="mt-1 text-sm font-medium text-primary dark:text-primary-dark">
+                    <p className="mt-1 text-base font-medium text-primary dark:text-primary-dark">
                       {edu.score}
                     </p>
                   )}
@@ -199,7 +199,7 @@ export default function Resume() {
             <>
               <hr className="my-6 border-line dark:border-line-dark" />
 
-              <p className="font-mono text-xs uppercase tracking-wide text-muted dark:text-muted-dark">
+              <p className="font-mono text-sm uppercase tracking-wide text-muted dark:text-muted-dark">
                 Leadership
               </p>
               <div className="mt-3 space-y-4">
@@ -207,14 +207,14 @@ export default function Resume() {
                   const key = `leadership-${role.title}`
                   return (
                     <Reveal key={role.title} delay={i * 0.08}>
-                      <p className="font-display text-sm font-semibold text-ink dark:text-ink-dark">
+                      <p className="font-display text-base font-semibold text-ink dark:text-ink-dark">
                         {role.title}
                       </p>
-                      <p className="text-sm text-muted dark:text-muted-dark">{role.place}</p>
+                      <p className="text-base text-muted dark:text-muted-dark">{role.place}</p>
                       {role.points?.length > 0 && (
                         <>
                           {expanded[key] && (
-                            <ul className="mt-1.5 list-disc space-y-1 pl-4 text-xs leading-relaxed text-muted marker:text-primary dark:text-muted-dark dark:marker:text-primary-dark">
+                            <ul className="mt-1.5 list-disc space-y-1 pl-4 text-sm leading-relaxed text-muted marker:text-primary dark:text-muted-dark dark:marker:text-primary-dark">
                               {role.points.map((point, i) => (
                                 <li key={i}>{point}</li>
                               ))}
@@ -223,7 +223,7 @@ export default function Resume() {
                           <button
                             type="button"
                             onClick={() => toggleExpand(key)}
-                            className="mt-1 text-xs font-medium text-primary hover:underline dark:text-primary-dark"
+                            className="mt-1 text-sm font-medium text-primary hover:underline dark:text-primary-dark"
                           >
                             {expanded[key] ? 'Show Less' : 'View More'}
                           </button>

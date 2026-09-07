@@ -1,212 +1,3 @@
-// =============================================================
-// FILE INI ISINYA DAFTAR PROYEK KAMU.
-// Setiap proyek punya field "track" yang menentukan proyek ini
-// muncul di filter yang mana. Pilihan track yang tersedia:
-//
-//   'system-analyst'  -> muncul saat filter "System Analyst"
-//   'data-analyst'    -> muncul saat filter "Data Analyst"
-//   'data-engineer'   -> muncul saat filter "Data Engineer"
-//
-// Satu proyek boleh punya lebih dari satu track kalau memang
-// relevan untuk keduanya, tinggal tulis array-nya lebih dari satu.
-//
-// --------- STRUKTUR STUDI KASUS (v8 — selaras ProjectModal.jsx) ---------
-// Modal sekarang punya 6 section: Overview -> Problem -> Process ->
-// Solution Approach -> Key Insight -> Expected Outcomes, ditambah
-// hook di atas Overview dan CTA di paling bawah.
-//
-// "description"      -> ringkasan singkat, dipakai di CARD grid (Work.jsx)
-// "categories"        -> tag kategori kerja, tampil di bawah judul modal
-// "hook"              -> string (OPSIONAL) — satu baris "peran + hasil
-//                        utama", tampil MENONJOL (bold) tepat di bawah
-//                        judul & categories, SEBELUM gallery/overview.
-//                        Tujuannya recruiter dapat inti project dalam
-//                        3 detik pertama tanpa perlu scroll. Contoh:
-//                        "Business Analyst — redesigned an ERP leave
-//                        workflow, projected to cut approval time from
-//                        3–5 days to under 1 day."
-//                        Kalau kosong, baris ini otomatis nggak muncul.
-// "gallery"           -> array {src, fullSrc, label, caption, alt} (OPSIONAL)
-//                        — carousel gambar di section OVERVIEW, tampil
-//                        tepat di bawah judul & categories/hook, sebelum
-//                        teks overview. Cocok untuk kasih "gambaran besar"
-//                        project sebelum recruiter baca teksnya, misalnya
-//                        urutan As-Is -> Gap -> To-Be -> Solution.
-//                        -> "src"      WAJIB — gambar yang tampil di
-//                           carousel. Taruh file-nya di folder /public
-//                           project (lihat catatan lokasi file di bawah),
-//                           lalu isi path-nya mulai dari root, mis.
-//                           '/projects/odoo/01-as-is-bpmn.png'.
-//                        -> "fullSrc"  OPSIONAL — gambar resolusi
-//                           tinggi yang dibuka di lightbox saat gambar
-//                           di-klik/di-zoom. Kalau kosong, "src" yang
-//                           dipakai juga di lightbox.
-//                        -> "label"    OPSIONAL — judul singkat slide,
-//                           mis. 'As-Is process'.
-//                        -> "caption"  OPSIONAL — deskripsi 1 baris di
-//                           bawah label, mis. 'BPMN kondisi eksisting'.
-//                        -> "alt"      OPSIONAL — teks alt gambar untuk
-//                           aksesibilitas/SEO. Kalau kosong, "label"
-//                           dipakai sebagai fallback.
-//                        Kalau "gallery" kosong/tidak diisi, section
-//                        carousel-nya otomatis tidak muncul di modal.
-// "overview"          -> section OVERVIEW. Bisa diisi:
-//                        - string tunggal (format lama, tetap didukung), atau
-//                        - array string, tiap elemen jadi 1 paragraf terpisah
-//                          dengan jarak antar paragraf (dipakai kalau overview
-//                          butuh lebih dari satu paragraf, misalnya proyek
-//                          Odoo di bawah).
-// "note"              -> string (OPSIONAL) — catatan tambahan di bawah overview,
-//                        ditampilkan sebagai kotak kecil bergaya "callout"
-//                        (border kiri + italic), mirip blockquote di README.
-//                        Cocok buat disclaimer, asumsi simulasi, atau catatan
-//                        konteks lain. Kalau kosong, kotaknya nggak muncul.
-//                        PENTING: kalau "note" bilang project ini simulasi,
-//                        pastikan angka apa pun di "metrics"/"outcomes"
-//                        dibingkai sebagai proyeksi/estimasi (lihat field
-//                        "metrics" di bawah), bukan seolah capaian riil.
-// "preview"           -> gambar besar di hero modal — section OVERVIEW
-//                        (dipakai kalau TIDAK ada "gallery"; kalau "gallery"
-//                        diisi, carousel yang tampil duluan, "preview" tetap
-//                        boleh diisi sebagai cadangan/dipakai di tempat lain).
-// "problems"          -> array string — section PROBLEM
-// "process"           -> array {title, detail, output, outputLink} — section
-//                        PROCESS, ditampilkan sebagai tabel 2 kolom:
-//                        "Process" (nomor + title + detail) | "Output"
-//                        -> "output" WAJIB diisi kalau mau kolom Output-nya
-//                           muncul di baris itu.
-//                        -> "outputLink" OPSIONAL: isi dengan link ke file
-//                           aslinya (Google Drive, Figma, GitHub, dst) kalau
-//                           mau teks Output-nya bisa diklik dan buka file itu
-//                           di tab baru. Kosongkan '' kalau belum ada linknya
-//                           — teksnya tetap tampil tapi nggak bisa diklik.
-//                           Konvensi yang dipakai di file ini: step yang
-//                           outputnya desain/prototype (mis. "Interactive
-//                           Prototype") di-link ke "prototype" (Figma), dan
-//                           step yang outputnya dokumen/laporan (mis.
-//                           "Documentation") di-link ke "document" (Drive/
-//                           Docs) — dua-duanya field yang sama di project
-//                           ini juga. Kalau ada output lain yang punya file
-//                           sendiri (nggak sama dengan prototype/document),
-//                           tinggal isi outputLink-nya langsung dengan link
-//                           file itu. CATATAN: link GitHub yang dipakai di
-//                           sini formatnya "blob" (halaman preview GitHub),
-//                           itu OK untuk outputLink karena cuma dibuka di
-//                           tab baru — tapi TIDAK BISA dipakai langsung
-//                           sebagai "src" gallery/img (lihat catatan di
-//                           bawah).
-// "solutionIntro"     -> array string (OPSIONAL) — paragraf pengantar di
-//                        section SOLUTION APPROACH, tampil di atas list
-//                        "solutions". Tiap elemen jadi 1 paragraf terpisah.
-//                        Kalau kosong, langsung loncat ke list "solutions".
-//                        Cocok juga buat jelasin TRADE-OFF pemilihan tool/
-//                        platform (mis. kenapa Odoo dibanding alternatif
-//                        lain) — tinggal tambah 1 paragraf pembanding
-//                        kriteria (biaya, skalabilitas, ease of config)
-//                        di sini, nggak perlu section baru.
-// "solutions"         -> array string (OPSIONAL) — list poin di section
-//                        SOLUTION APPROACH, tampil di bawah "solutionIntro"
-//                        (kalau ada). Section ini otomatis nggak ditampilkan
-//                        kalau "solutionIntro" dan "solutions" dua-duanya
-//                        kosong. Cocok buat proyek yang punya rekomendasi/
-//                        pendekatan solusi yang jelas (mis. daftar fitur
-//                        solusi ERP, daftar capability sistem yang
-//                        diusulkan, dst).
-// "businessInsight"   -> section KEY INSIGHT. Bisa diisi:
-//                        - string tunggal (format lama, tetap didukung), atau
-//                        - array string, tiap elemen jadi 1 paragraf terpisah
-//                          di modal (dipakai kalau insight-nya butuh lebih
-//                          dari satu paragraf, misalnya proyek Odoo di bawah).
-// "outcomeIntro"      -> array string (OPSIONAL) — paragraf pengantar di
-//                        section EXPECTED OUTCOMES, tampil di atas list
-//                        "outcomes"/"outcomeStats". Tiap elemen jadi 1
-//                        paragraf terpisah. Kalau kosong, langsung loncat
-//                        ke stat card / list "outcomes".
-// "outcomeStats"      -> array {label, before, after, icon} (OPSIONAL) —
-//                        stat card before -> after di section EXPECTED
-//                        OUTCOMES, tampil di atas list "outcomes" (kalau
-//                        ada). Dipakai untuk poin outcome yang punya angka
-//                        kuantitatif jelas (mis. waktu approval, jumlah
-//                        langkah proses), biar polanya "before vs after"
-//                        lebih menonjol dibanding cuma bullet biasa.
-//                        -> "label" WAJIB — nama metrik singkat, mis.
-//                           'Approval Time'.
-//                        -> "before" WAJIB — nilai sebelum improvement.
-//                        -> "after"  WAJIB — nilai sesudah improvement.
-//                        -> "icon"   OPSIONAL — nama ikon (mis. 'clock',
-//                           'check') kalau modal-nya support render ikon
-//                           per card.
-//                        Kalau "outcomeStats" kosong/tidak diisi, section
-//                        Expected Outcomes otomatis fallback ke bullet list
-//                        biasa seperti sebelumnya (backward-compatible).
-// "outcomes"          -> array string (OPSIONAL) — list poin KUALITATIF di
-//                        section EXPECTED OUTCOMES, tampil di bawah
-//                        "outcomeStats" (kalau ada). Section ini otomatis
-//                        nggak ditampilkan kalau "outcomeIntro",
-//                        "outcomeStats", dan "outcomes" tiga-tiganya kosong.
-//                        Poin yang punya angka before->after sebaiknya
-//                        dipindah ke "outcomeStats" di atas, bukan ditulis
-//                        di sini sebagai kalimat "Projected to...".
-// "tech"              -> badge tech stack (dipakai di CARD grid, bukan di modal)
-// "prototype"         -> link Figma (opsional, tombol aksi di modal)
-// "link"              -> link source code/GitHub (opsional, tombol aksi di modal)
-// "document"          -> link dokumen BRD/SRS/laporan (opsional, tombol aksi di modal)
-// "image"             -> gambar thumbnail di CARD grid
-// "contact"           -> {url, label} (OPSIONAL) — CTA satu baris di
-//                        paling bawah modal, di bawah tombol Prototype/
-//                        Source/Documentation. Diisi sekali lewat konstanta
-//                        CONTACT di bagian bawah file ini dan otomatis
-//                        ditempel ke SEMUA project (lihat penjelasan di
-//                        dekat "export const projects" di bawah) — jadi
-//                        nggak perlu diulang manual di tiap object project.
-//                        -> "url"   WAJIB — link tujuan (LinkedIn, mailto:,
-//                           dst). Kalau kosong, CTA-nya nggak muncul.
-//                        -> "label" OPSIONAL — teks link, default
-//                           'Hubungi saya' kalau dikosongkan.
-//
-// --------- DI MANA NARUH FILE GAMBAR UNTUK "gallery" ---------
-// Sama seperti "image"/"preview" yang sudah ada di file ini (mis.
-// '/odoo1.png', '/Ai.png'), taruh file gambarnya di folder /public
-// project React kamu, lalu tulis path-nya mulai dari root ('/...'),
-// BUKAN dari folder src/ atau path relatif.
-//
-//   my-app/
-//   ├─ public/
-//   │  ├─ odoo1.png                     <- sudah ada (preview/card)
-//   │  └─ projects/
-//   │     └─ odoo/
-//   │        ├─ 01-as-is-bpmn.png       <- gallery[0].src
-//   │        ├─ 02-gap-analysis.png     <- gallery[1].src
-//   │        ├─ 03-to-be-bpmn.png       <- gallery[2].src
-//   │        └─ 04-odoo-solution.png    <- gallery[3].src
-//   └─ src/...
-//
-// Lalu dipanggil di data ini sebagai:  src: '/projects/odoo/01-as-is-bpmn.png'
-//
-// Kalau gambarnya mau tetap disimpan di GitHub (bukan di /public), link
-// GitHub yang sekarang dipakai di "outputLink" ('.../blob/main/...') TIDAK
-// BISA langsung jadi src <img> karena itu halaman HTML, bukan file gambar.
-// Harus diubah dulu dari "github.com/.../blob/..." jadi
-// "raw.githubusercontent.com/.../..." (hapus "blob/"), contoh sudah
-// dipakai di gallery proyek Odoo di bawah. Cara ini jalan tapi lebih
-// lambat/berisiko (tergantung uptime & rate-limit GitHub) dibanding
-// naruh file di /public sendiri — jadi /public tetap disarankan.
-//
-// Untuk output yang formatnya PDF (mis. Functional Requirement Document,
-// Odoo Configuration Documentation), itu TIDAK bisa langsung dipakai
-// sebagai gambar. Kalau mau tetap muncul di carousel, screenshot dulu
-// halaman/cover-nya jadi .png, taruh di /public seperti di atas, baru
-// masukkan ke "gallery" (fungsi outputLink dokumen aslinya tetap ada di
-// section Process, nggak perlu dihapus).
-//
-// Field "info" (role/timeline/type/team/tools), "responsibilities",
-// "deliverables", "impact", dan "lessonsLearned" SUDAH TIDAK DITAMPILKAN
-// oleh ProjectModal yang sekarang — sengaja dihapus dari sini biar file
-// ini nggak nyimpen data yang nggak kepake. Kalau nanti mau dimunculkan
-// lagi, tambah section-nya balik di ProjectModal.jsx dulu baru isi field
-// ini lagi.
-// =============================================================
-
 // TODO: ganti url/label di bawah ini sesuai kontak yang mau kamu tampilkan
 // di CTA bawah tiap modal (LinkedIn, email, dsb). Set url: '' kalau mau
 // CTA-nya disembunyikan sementara dari semua project.
@@ -216,6 +7,362 @@ const CONTACT = {
 }
 
 const rawProjects = [
+  {
+  title: 'Retrieval-Augmented Generation for Indonesian Energy Regulations',
+  track: ['data-engineer', 'system-analyst'],
+  description:
+    'Designed and evaluated a Retrieval-Augmented Generation (RAG) pipeline for semantic information retrieval from Indonesian new and renewable energy regulatory documents, focusing on chunking, embedding, similarity search, and reranking strategies.',
+  categories: ['RAG & Information Retrieval', 'AI System Design'],
+  hook:
+    'AI Engineer — designed and evaluated a RAG pipeline by comparing chunking, embedding, similarity search, and reranking strategies for Indonesian energy regulations.',
+  gallery: [
+    {
+      src: '/Ai.png',
+      label: 'RAG architecture',
+      caption: 'Retrieval-Augmented Generation architecture for regulatory document question answering',
+    },
+  ],
+  overview: [
+    'This research developed a Retrieval-Augmented Generation (RAG) system for semantic information retrieval and question answering over Indonesian new and renewable energy regulatory documents.',
+    'The study focused on evaluating how different chunking strategies, embedding models, and retrieval reranking approaches affect retrieval quality and the final answers generated by an LLM.',
+    'The system was evaluated using 100 regulatory documents and 50 query–expected answer pairs, with Qwen2.5-7B-Instruct used as the fixed generative model across all experiments.',
+  ],
+  note:
+    'This project was developed as a final-year undergraduate thesis, focusing on the evaluation and optimization of retrieval strategies within a RAG architecture.',
+  preview: '/ragPreview.png',
+  problems: [
+    'Regulatory documents contain large amounts of complex and context-dependent information.',
+    'Traditional keyword-based search may fail to retrieve relevant information when the query and document use different wording.',
+    'RAG performance depends heavily on how documents are chunked, embedded, and retrieved before being passed to the generative model.',
+    'Different retrieval configurations can produce different levels of context relevance and answer quality.',
+  ],
+  process: [
+    {
+      title: 'Data Preparation',
+      detail:
+        'Collected and processed Indonesian new and renewable energy regulatory documents by extracting PDF content and applying text preprocessing.',
+      output: '100 Regulatory Documents',
+      outputLink: '',
+    },
+
+    {
+      title: 'Document Chunking',
+      detail:
+        'Implemented and compared three chunking strategies: fixed-length chunking, overlap chunking, and semantic chunking.',
+      output: '3 Chunking Strategies',
+      outputLink: '',
+    },
+
+    {
+      title: 'Text Embedding',
+      detail:
+        'Converted document chunks into vector representations using Multilingual-E5-Large and Indo-Sentence-BERT-Base.',
+      output: '2 Embedding Models',
+      outputLink: '',
+    },
+
+    {
+      title: 'Vector Database',
+      detail:
+        'Stored document embeddings and metadata in Milvus to support semantic similarity search and efficient retrieval.',
+      output: 'Milvus Vector Database',
+      outputLink: '',
+    },
+
+    {
+      title: 'Similarity Search',
+      detail:
+        'Retrieved relevant document chunks using cosine similarity, implemented through inner product after L2 normalization.',
+      output: 'Dense Retrieval',
+      outputLink: '',
+    },
+
+    {
+      title: 'Retrieval Reranking',
+      detail:
+        'Compared dense retrieval without reranking against retrieval with BGE-Reranker-v2-m3 to improve the relevance ranking of retrieved chunks.',
+      output: 'Reranked Retrieval',
+      outputLink: '',
+    },
+
+    {
+      title: 'RAG Generation',
+      detail:
+        'Combined retrieved regulatory context with user queries and generated answers using Qwen2.5-7B-Instruct.',
+      output: 'Context-Aware Answers',
+      outputLink: '',
+    },
+
+    {
+      title: 'Retrieval Evaluation',
+      detail:
+        'Evaluated retrieval quality using reference-answer coverage, lexical coverage, and semantic alignment metrics across 12 experimental configurations.',
+      output: 'Retrieval Evaluation Results',
+      outputLink: '',
+    },
+
+    {
+      title: 'Answer Evaluation',
+      detail:
+        'Evaluated generated answers using ROUGE, BERTScore, and manual relevance assessment to identify the best-performing RAG pipeline.',
+      output: 'RAG Performance Evaluation',
+      outputLink: '',
+    },
+  ],
+  solutionIntro: [
+    'Evaluated 12 RAG configurations to identify the most effective retrieval pipeline for Indonesian regulatory documents.',
+  ],
+  solutions: [
+   'Multi-strategy document chunking',
+  'Embedding-based semantic retrieval',
+  'Reranking for improved relevance',
+  'Milvus-powered vector search',
+  'LLM-based answer generation',
+  ],
+  businessInsight: [
+    'Multilingual-E5-Large and reranking consistently improved retrieval quality.',
+  'The optimal configuration combined Fixed-Length Chunking, Multilingual-E5-Large, and BGE-Reranker-v2-m3.',
+  ],
+  outcomeIntro: [
+    'The evaluation identified C1_E1_S2 as the best-performing RAG pipeline:',
+  ],
+  outcomes: [
+    '64.40% relevant retrieved chunks in manual relevance evaluation.',
+    'ROUGE-1 F1 score of 0.6031.',
+    'BERTScore F1 score of 0.8149.',
+    '81.3% of generated answers were classified as fully appropriate in manual evaluation.',
+    'Fleiss’ Kappa of 0.4160, indicating moderate inter-rater agreement.',
+    'The final pipeline provided more focused and relevant answers compared with retrieval without reranking.',
+  ],
+  tech: [
+    'RAG',
+    'Information Retrieval',
+    'Document Processing',
+    'Cosine Similarity',
+    'Milvus',
+    'Qwen2.5-7B-Instruct',
+    'Fleiss’ Kappa',
+    'Python',
+  ],
+  prototype: '',
+  link: '',
+  document: '',
+  image: '/RAGTA.png',
+},
+{
+  title: 'PLN NP – Enterprise ETL Pipeline Automation',
+  track: ['data-engineer'],
+  description:
+    'Built automated ETL pipelines using Apache NiFi to integrate data from spreadsheets and REST APIs into a centralized data mart.',
+  categories: ['Data Engineering', 'ETL Pipeline Automation'],
+  hook:
+    'Data Engineer Intern — built automated ETL pipelines in Apache NiFi, integrating multi-source data into a centralized data mart.',
+  gallery: [
+      {
+    src: '/ArsitekturPLNNP.png',
+    label: 'ETL Pipeline Architecture',
+    caption: 'Architecture of the automated ETL pipeline for multi-source data integration',
+  },
+  ],
+  overview: [
+    'During my internship, I built multiple automated ETL pipelines using Apache NiFi to process operational data from spreadsheets and REST APIs.',
+    'The pipelines covered data extraction, validation, cleansing, standardization, metadata enrichment, scheduling, and incremental loading into a centralized data mart.',
+  ],
+  note:
+    'This project was developed during my internship at Wiratek Solusi Asia.',
+  preview: '/plnnp.png',
+  problems: [
+    'Business data came from multiple sources, including spreadsheets and REST APIs, making manual integration inefficient.',
+    'Data quality issues such as missing values and duplicate records affected data consistency.',
+    'The organization required automated pipelines with scheduling, monitoring, and reliable incremental loading.',
+  ],
+  process: [
+    {
+      title: 'Data Extraction',
+      detail:
+        'Extracted data from Excel files and REST APIs through automated Apache NiFi workflows.',
+      output: 'Raw Extracted Data',
+      outputLink: '',
+    },
+
+    {
+      title: 'Data Validation & Cleansing',
+      detail:
+        'Validated required fields, handled duplicate records, and managed pipeline failures through automated notifications.',
+      output: 'Validated & Cleaned Data',
+      outputLink: '',
+    },
+
+    {
+      title: 'Data Standardization',
+      detail:
+        'Standardized date formats, numeric fields, and string values to maintain data consistency.',
+      output: 'Standardized Dataset',
+      outputLink: '',
+    },
+
+    {
+      title: 'Metadata Enrichment',
+      detail:
+        'Added audit metadata such as timestamps, creator information, and soft-delete attributes.',
+      output: 'Enriched Dataset',
+      outputLink: '',
+    },
+
+    {
+      title: 'Data Loading',
+      detail:
+        'Loaded transformed data into a centralized data mart using upsert and incremental loading strategies.',
+      output: 'Centralized Data Mart',
+      outputLink: '',
+    },
+  ],
+  solutionIntro: [
+    'The solution automated the end-to-end data integration workflow, from extracting multi-source data to loading validated and standardized data into a centralized data mart.',
+  ],
+  solutions: [
+    'Multi-source data integration',
+    'Automated data validation and cleansing',
+    'Incremental data loading',
+    'Centralized data mart',
+  ],
+  businessInsight: [
+    'The project showed how automated data pipelines can reduce manual data integration and improve the consistency and reliability of data used for reporting and analytics.',
+  ],
+  outcomeIntro: [
+    'The project resulted in:',
+  ],
+  outcomes: [
+    'Automated ETL workflows using Apache NiFi.',
+    'Integrated data from spreadsheets and REST APIs.',
+    'Standardized and validated operational data.',
+    'Centralized transformed data in a data mart.',
+  ],
+  tech: [
+    'Apache NiFi',
+    'SQL',
+    'REST API',
+    'ETL',
+    'Excel',
+    'CSV',
+    'PostgreSQL',
+    'Data Validation',
+    'Data Cleansing',
+    'Data Warehousing',
+  ],
+  prototype: '',
+  link: '',
+  document: '',
+  image: '/plnnp.png',
+},
+{
+  title: 'PLN Insight Generatif – RAG Data Pipeline',
+  track: ['data-engineer'],
+  description:
+    'Built an automated document ingestion pipeline for a Retrieval-Augmented Generation (RAG) system, from PDF extraction and text processing to vector storage in Milvus.',
+  categories: ['Data Engineering', 'AI Infrastructure'],
+  hook:
+    'Data Engineer Intern — built the document ingestion pipeline for an internal RAG system, from PDF extraction to vector storage in Milvus.',
+  gallery: [
+      {
+    src: '/ArsitekturPLNIG.png',
+    label: 'RAG Data Pipeline',
+    caption:
+      'Architecture of the document processing pipeline for the RAG system',
+  },
+  ],
+  overview: [
+    'During my internship, I contributed to the data engineering pipeline of PLN Insight Generatif, an internal AI knowledge management system.',
+    'The pipeline processed PDF documents through extraction, cleansing, chunking, embedding generation, and vector database ingestion, with Apache Airflow used to orchestrate the workflow.',
+  ],
+  note:
+    'This project was developed during my internship at Wiratek Solusi Asia as part of an internal generative AI initiative.',
+  preview: '/plnig.png',
+  problems: [
+    'Knowledge documents were stored as unstructured PDF files, making information retrieval inefficient.',
+    'The RAG system required structured document chunks and vector embeddings for semantic retrieval.',
+    'New documents needed to be processed consistently through an automated and repeatable pipeline.',
+  ],
+  process: [
+    {
+      title: 'Document Extraction',
+      detail:
+        'Extracted text from PDF documents using Python-based data processing scripts.',
+      output: 'Extracted Document Text',
+      outputLink: '',
+    },
+
+    {
+      title: 'Data Cleansing',
+      detail:
+        'Cleaned and standardized extracted text to prepare documents for further processing.',
+      output: 'Cleaned Document Text',
+      outputLink: '',
+    },
+
+    {
+      title: 'Document Chunking',
+      detail:
+        'Segmented documents into smaller chunks suitable for embedding and semantic retrieval.',
+      output: 'Document Chunks',
+      outputLink: '',
+    },
+
+    {
+      title: 'Embedding Generation',
+      detail:
+        'Converted document chunks into vector embeddings for semantic search.',
+      output: 'Vector Embeddings',
+      outputLink: '',
+    },
+
+    {
+      title: 'Vector Storage & Orchestration',
+      detail:
+        'Stored embeddings in Milvus and orchestrated the document processing workflow using Apache Airflow.',
+      output: 'Milvus Vector Database & Airflow Pipeline',
+      outputLink: '',
+    },
+  ],
+  solutionIntro: [
+    'The solution automated the document ingestion workflow, transforming unstructured PDF files into searchable vector representations for the RAG system.',
+  ],
+  solutions: [
+    'Automated PDF document processing',
+    'Text cleansing and document chunking',
+    'Vector embedding generation',
+    'Vector storage in Milvus',
+    'Workflow orchestration with Apache Airflow',
+  ],
+  businessInsight: [
+    'The project demonstrated how automated document pipelines can turn unstructured enterprise documents into structured, searchable data that supports AI-powered knowledge retrieval.',
+  ],
+  outcomeIntro: [
+    'The project resulted in:',
+  ],
+  outcomes: [
+    'An automated document ingestion pipeline for the RAG system.',
+    'Processed and structured document data for semantic retrieval.',
+    'Vector embeddings stored in Milvus.',
+    'An orchestrated workflow using Apache Airflow.',
+  ],
+  tech: [
+    'Python',
+    'Apache Airflow',
+    'Milvus',
+    'Docker',
+    'Docker Compose',
+    'MinIO',
+    'ETCD',
+    'Vector Database',
+    'ETL',
+    'RAG Pipeline',
+  ],
+  prototype: '',
+  link: '',
+  document: '',
+  image: '/plnig.png',
+},
   {
   title: 'TaskSync – Smart Academic Task Management',
   track: ['system-analyst'],
@@ -705,220 +852,7 @@ const rawProjects = [
     'https://docs.google.com/document/d/1u_P-FrYETWmldzMoqlwKZZfGJNgp0m9L0_1GOZMjf0Q/edit?usp=sharing',
   image: '/coverIKN.png',
 },
-{
-  title: 'PLN NP – Enterprise ETL Pipeline Automation',
-  track: ['data-engineer'],
-  description:
-    'Built automated ETL pipelines using Apache NiFi to integrate data from spreadsheets and REST APIs into a centralized data mart.',
-  categories: ['Data Engineering', 'ETL Pipeline'],
-  hook:
-    'Data Engineer Intern — built automated ETL pipelines in Apache NiFi, integrating multi-source data into a centralized data mart.',
-  gallery: [
-      {
-    src: '/ArsitekturPLNNP.png',
-    label: 'ETL Pipeline Architecture',
-    caption: 'Architecture of the automated ETL pipeline for multi-source data integration',
-  },
-  ],
-  overview: [
-    'During my internship, I built multiple automated ETL pipelines using Apache NiFi to process operational data from spreadsheets and REST APIs.',
-    'The pipelines covered data extraction, validation, cleansing, standardization, metadata enrichment, scheduling, and incremental loading into a centralized data mart.',
-  ],
-  note:
-    'This project was developed during my internship at Wiratek Solusi Asia.',
-  preview: '/plnnp.png',
-  problems: [
-    'Business data came from multiple sources, including spreadsheets and REST APIs, making manual integration inefficient.',
-    'Data quality issues such as missing values and duplicate records affected data consistency.',
-    'The organization required automated pipelines with scheduling, monitoring, and reliable incremental loading.',
-  ],
-  process: [
-    {
-      title: 'Data Extraction',
-      detail:
-        'Extracted data from Excel files and REST APIs through automated Apache NiFi workflows.',
-      output: 'Raw Extracted Data',
-      outputLink: '',
-    },
 
-    {
-      title: 'Data Validation & Cleansing',
-      detail:
-        'Validated required fields, handled duplicate records, and managed pipeline failures through automated notifications.',
-      output: 'Validated & Cleaned Data',
-      outputLink: '',
-    },
-
-    {
-      title: 'Data Standardization',
-      detail:
-        'Standardized date formats, numeric fields, and string values to maintain data consistency.',
-      output: 'Standardized Dataset',
-      outputLink: '',
-    },
-
-    {
-      title: 'Metadata Enrichment',
-      detail:
-        'Added audit metadata such as timestamps, creator information, and soft-delete attributes.',
-      output: 'Enriched Dataset',
-      outputLink: '',
-    },
-
-    {
-      title: 'Data Loading',
-      detail:
-        'Loaded transformed data into a centralized data mart using upsert and incremental loading strategies.',
-      output: 'Centralized Data Mart',
-      outputLink: '',
-    },
-  ],
-  solutionIntro: [
-    'The solution automated the end-to-end data integration workflow, from extracting multi-source data to loading validated and standardized data into a centralized data mart.',
-  ],
-  solutions: [
-    'Multi-source data integration',
-    'Automated data validation and cleansing',
-    'Incremental data loading',
-    'Centralized data mart',
-  ],
-  businessInsight: [
-    'The project showed how automated data pipelines can reduce manual data integration and improve the consistency and reliability of data used for reporting and analytics.',
-  ],
-  outcomeIntro: [
-    'The project resulted in:',
-  ],
-  outcomes: [
-    'Automated ETL workflows using Apache NiFi.',
-    'Integrated data from spreadsheets and REST APIs.',
-    'Standardized and validated operational data.',
-    'Centralized transformed data in a data mart.',
-  ],
-  tech: [
-    'Apache NiFi',
-    'SQL',
-    'REST API',
-    'ETL',
-    'Excel',
-    'CSV',
-    'PostgreSQL',
-    'Data Validation',
-    'Data Cleansing',
-    'Data Warehousing',
-  ],
-  prototype: '',
-  link: '',
-  document: '',
-  image: '/plnnp.png',
-},
-{
-  title: 'PLN Insight Generatif – RAG Data Pipeline',
-  track: ['data-engineer'],
-  description:
-    'Built an automated document ingestion pipeline for a Retrieval-Augmented Generation (RAG) system, from PDF extraction and text processing to vector storage in Milvus.',
-  categories: ['Data Engineering', 'AI Infrastructure'],
-  hook:
-    'Data Engineer Intern — built the document ingestion pipeline for an internal RAG system, from PDF extraction to vector storage in Milvus.',
-  gallery: [
-      {
-    src: '/ArsitekturPLNIG.png',
-    label: 'RAG Data Pipeline',
-    caption:
-      'Architecture of the document processing pipeline for the RAG system',
-  },
-  ],
-  overview: [
-    'During my internship, I contributed to the data engineering pipeline of PLN Insight Generatif, an internal AI knowledge management system.',
-    'The pipeline processed PDF documents through extraction, cleansing, chunking, embedding generation, and vector database ingestion, with Apache Airflow used to orchestrate the workflow.',
-  ],
-  note:
-    'This project was developed during my internship at Wiratek Solusi Asia as part of an internal generative AI initiative.',
-  preview: '/plnig.png',
-  problems: [
-    'Knowledge documents were stored as unstructured PDF files, making information retrieval inefficient.',
-    'The RAG system required structured document chunks and vector embeddings for semantic retrieval.',
-    'New documents needed to be processed consistently through an automated and repeatable pipeline.',
-  ],
-  process: [
-    {
-      title: 'Document Extraction',
-      detail:
-        'Extracted text from PDF documents using Python-based data processing scripts.',
-      output: 'Extracted Document Text',
-      outputLink: '',
-    },
-
-    {
-      title: 'Data Cleansing',
-      detail:
-        'Cleaned and standardized extracted text to prepare documents for further processing.',
-      output: 'Cleaned Document Text',
-      outputLink: '',
-    },
-
-    {
-      title: 'Document Chunking',
-      detail:
-        'Segmented documents into smaller chunks suitable for embedding and semantic retrieval.',
-      output: 'Document Chunks',
-      outputLink: '',
-    },
-
-    {
-      title: 'Embedding Generation',
-      detail:
-        'Converted document chunks into vector embeddings for semantic search.',
-      output: 'Vector Embeddings',
-      outputLink: '',
-    },
-
-    {
-      title: 'Vector Storage & Orchestration',
-      detail:
-        'Stored embeddings in Milvus and orchestrated the document processing workflow using Apache Airflow.',
-      output: 'Milvus Vector Database & Airflow Pipeline',
-      outputLink: '',
-    },
-  ],
-  solutionIntro: [
-    'The solution automated the document ingestion workflow, transforming unstructured PDF files into searchable vector representations for the RAG system.',
-  ],
-  solutions: [
-    'Automated PDF document processing',
-    'Text cleansing and document chunking',
-    'Vector embedding generation',
-    'Vector storage in Milvus',
-    'Workflow orchestration with Apache Airflow',
-  ],
-  businessInsight: [
-    'The project demonstrated how automated document pipelines can turn unstructured enterprise documents into structured, searchable data that supports AI-powered knowledge retrieval.',
-  ],
-  outcomeIntro: [
-    'The project resulted in:',
-  ],
-  outcomes: [
-    'An automated document ingestion pipeline for the RAG system.',
-    'Processed and structured document data for semantic retrieval.',
-    'Vector embeddings stored in Milvus.',
-    'An orchestrated workflow using Apache Airflow.',
-  ],
-  tech: [
-    'Python',
-    'Apache Airflow',
-    'Milvus',
-    'Docker',
-    'Docker Compose',
-    'MinIO',
-    'ETCD',
-    'Vector Database',
-    'ETL',
-    'RAG Pipeline',
-  ],
-  prototype: '',
-  link: '',
-  document: '',
-  image: '/plnig.png',
-},
 ]
 
 // Tempel "contact" (CTA di bawah modal, poin 7) ke SEMUA project sekaligus
@@ -933,6 +867,7 @@ export const projects = rawProjects.map((project) => ({
 // Daftar filter yang ditampilkan di halaman (urutan sesuai array ini)
 export const tracks = [
   { key: 'all', label: 'All' },
+   { key: 'data-engineer', label: 'Data & AI Product' },
   { key: 'system-analyst', label: 'System Analyst' },
-  { key: 'data-engineer', label: 'Data & AI Product' },
+ 
 ]

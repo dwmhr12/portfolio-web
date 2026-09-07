@@ -24,7 +24,7 @@ export default function Work() {
             Projects
           </h1>
           <p className="mt-2 max-w-lg text-sm text-muted dark:text-muted-dark">
-            A selection of projects in system analysis, data, and AI-driven solutions.
+            Selected projects demonstrating how I turn requirements, data, and AI into practical solutions.
           </p>
         </div>
         <FilterTabs tracks={tracks} active={activeTrack} onChange={setActiveTrack} />

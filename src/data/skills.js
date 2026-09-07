@@ -12,43 +12,52 @@ export const coreCompetencies = [
   },
   {
     name: 'Requirement Analysis',
-    description: 'Identifying and translating user and stakeholder needs into clear system requirements.',
-  },
-  {
-    name: 'System & Application Flow',
-    description: 'Designing end-to-end application and system flows based on functional requirements.',
+    description: 'Identifying and translating business, user, and stakeholder needs into clear system requirements.',
   },
   {
     name: 'Business Process Modeling',
-    description: 'Modeling end-to-end processes using BPMN to understand workflows and support system design.',
+    description: 'Modeling and analyzing end-to-end business processes using BPMN to support system improvement.',
   },
   {
-    name: 'SRS Documentation',
-    description: 'Documenting system requirements and specifications as references for development.',
-  },
-  {
-    name: 'UML Modeling',
-    description: 'Modeling system structure and behavior using UML diagrams.',
+    name: 'System Design',
+    description: 'Designing system architecture, application flows, and functional specifications based on requirements.',
   },
   {
     name: 'Database Design',
-    description: 'Designing database structures aligned with system requirements and data needs.',
+    description: 'Designing database structures and data models aligned with system requirements and business needs.',
   },
   {
     name: 'API & System Integration',
-    description: 'Understanding and working with REST APIs and interactions between system components.',
+    description: 'Working with REST APIs and integrating data and system components across different platforms.',
+  },
+  {
+    name: 'Data Pipeline',
+    description: 'Designing and automating ETL pipelines for data ingestion, transformation, validation, error handling, and loading.',
   },
   {
     name: 'Data Analysis',
-    description: 'Analyzing data to identify patterns, insights, and opportunities for improvement.',
+    description: 'Analyzing and transforming data to identify insights, support decision-making, and improve processes.',
+  },
+  {
+    name: 'AI & RAG',
+    description: 'Developing AI solutions and RAG pipelines involving document processing, embeddings, retrieval, and vector databases.',
+  },
+  {
+    name: 'Automation',
+    description: 'Automating data and business processes through workflow automation and system integrations.',
+  },
+  {
+    name: 'SRS',
+    description: 'Documenting system requirements, specifications, workflows, and technical solutions for development.',
   },
   {
     name: 'UI/UX Prototyping',
-    description: 'Designing wireframes and interactive prototypes to visualize system solutions.',
+    description: 'Designing wireframes and interactive prototypes to communicate and validate system solutions.',
   },
 ]
 
 export const tools = [
+
   // System / Development
   {
     name: 'Git',
@@ -56,7 +65,7 @@ export const tools = [
   },
   {
     name: 'GitHub / Bitbucket',
-    description: 'Managing repositories and collaborating on development projects.',
+    description: 'Managing repositories and collaborating on software development projects.',
   },
   {
     name: 'Next.js',
@@ -71,34 +80,46 @@ export const tools = [
     description: 'Developing structured and type-safe web applications.',
   },
   {
-    name: 'PostgreSQL',
-    description: 'Working with relational databases for application data.',
-  },
-  {
     name: 'REST API',
-    description: 'Integrating and exchanging data between applications and services.',
+    description: 'Integrating applications and exchanging data between systems and services.',
   },
 
-  // Data / AI
+  // Data / Database
   {
     name: 'SQL',
-    description: 'Querying, analyzing, and validating relational data.',
+    description: 'Querying, analyzing, transforming, and validating relational data.',
+  },
+  {
+    name: 'PostgreSQL',
+    description: 'Designing and managing relational databases for applications and data pipelines.',
   },
   {
     name: 'BigQuery',
-    description: 'Querying and analyzing data for analytics and reporting.',
+    description: 'Querying and analyzing large datasets for analytics and reporting.',
   },
   {
     name: 'Python',
-    description: 'Working on data analysis, automation, and AI-related projects.',
+    description: 'Developing data analysis, automation, ETL, and AI-related solutions.',
   },
+
+  // ETL / Automation
   {
     name: 'Apache NiFi',
-    description: 'Building ETL pipelines and integrating data from different sources.',
+    description: 'Building and automating ETL pipelines with data integration, transformation, validation, and error handling.',
+  },
+
+  // AI / RAG
+  {
+    name: 'LLM',
+    description: 'Working with large language models for AI-powered applications and solutions.',
+  },
+  {
+    name: 'RAG',
+    description: 'Building retrieval-augmented generation pipelines for knowledge-based AI applications.',
   },
   {
     name: 'Milvus',
-    description: 'Building vector search and retrieval components for RAG applications.',
+    description: 'Managing vector embeddings and similarity search for RAG applications.',
   },
 
   // Analysis / Design
@@ -118,10 +139,15 @@ export const tools = [
   // Business / Enterprise
   {
     name: 'SAP S/4HANA',
-    description: 'Working with enterprise processes and ERP system scenarios.',
+    description: 'Understanding and working with enterprise processes and ERP system scenarios.',
+  },
+  {
+    name: 'Odoo',
+    description: 'Working with ERP modules and business process scenarios for system implementation.',
   },
   {
     name: 'Airtable',
-    description: 'Managing structured data and supporting application workflows.',
+    description: 'Managing structured data and supporting application and business workflows.',
   },
+
 ]

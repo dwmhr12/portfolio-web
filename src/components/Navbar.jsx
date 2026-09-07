@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Sun, Moon } from 'lucide-react'
+import { Sun, Moon, Download } from 'lucide-react'
 import { profile } from '../data/profile'
 import { useTheme } from '../hooks/useTheme'
 import Reveal from './Reveal'
@@ -14,6 +14,22 @@ const navLinks = [
   { href: '#work', label: 'Project' },
   { href: '#blog', label: 'Blog' },
 ]
+
+// Link file portofolio (Google Drive).
+// Format direct-download Drive: https://drive.google.com/uc?export=download&id=FILE_ID
+// FILE_ID diambil dari link share Drive kamu:
+// https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+//
+// CATATAN:
+// - Pastikan setting share file di Drive: "Anyone with the link" (Viewer).
+// - Karena ini link cross-origin (bukan file lokal di project),
+//   atribut `download` di bawah TIDAK akan memaksa nama file jadi
+//   PORTFOLIO_FILE_NAME — nama file akan mengikuti nama asli di Drive.
+//   Kalau mau nama file dikontrol penuh, taruh file-nya di public/files/
+//   dan pakai path lokal (mis. '/files/portfolio.pdf') seperti sebelumnya.
+const PORTFOLIO_FILE_URL =
+  'https://drive.google.com/uc?export=download&id=15p6Yf8mcYxfZaJOdSPOG5r-_4pvP-A3R'
+const PORTFOLIO_FILE_NAME = 'Portfolio.pdf'
 
 export default function Navbar() {
   const { isDark, toggleTheme } = useTheme()
@@ -152,20 +168,40 @@ export default function Navbar() {
           ))}
         </ul>
 
-        <Reveal y={-12} duration={0.4} delay={0.4}>
-          <button
-            onClick={toggleTheme}
-            aria-label={isDark ? 'Ganti ke mode terang' : 'Ganti ke mode gelap'}
-            className="flex items-center gap-1 rounded-full border border-line bg-card p-1.5 dark:border-line-dark dark:bg-card-dark"
-          >
-            <span className={`rounded-full p-1 ${!isDark ? 'bg-paper' : ''}`}>
-              <Sun size={16} className="text-ink dark:text-muted-dark" />
-            </span>
-            <span className={`rounded-full p-1 ${isDark ? 'bg-paper-dark' : ''}`}>
-              <Moon size={16} className="text-muted dark:text-ink-dark" />
-            </span>
-          </button>
-        </Reveal>
+        <div className="flex items-center gap-2">
+          {/* Tombol download portofolio.
+              target="_blank" + rel="noopener noreferrer" dipakai karena
+              file-nya di Google Drive (cross-origin), jadi kalau Drive
+              nampilin halaman konfirmasi (untuk file besar), itu kebuka
+              di tab baru dan gak ninggalin halaman utama. */}
+          <Reveal y={-12} duration={0.4} delay={0.35}>
+            <a
+              href={PORTFOLIO_FILE_URL}
+              download={PORTFOLIO_FILE_NAME}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 rounded-full border border-line bg-card px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-primary hover:text-white dark:border-line-dark dark:bg-card-dark dark:text-muted-dark dark:hover:bg-primary-dark"
+            >
+              <Download size={16} />
+              <span className="hidden md:inline">Download Portofolio</span>
+            </a>
+          </Reveal>
+
+          <Reveal y={-12} duration={0.4} delay={0.4}>
+            <button
+              onClick={toggleTheme}
+              aria-label={isDark ? 'Ganti ke mode terang' : 'Ganti ke mode gelap'}
+              className="flex items-center gap-1 rounded-full border border-line bg-card p-1.5 dark:border-line-dark dark:bg-card-dark"
+            >
+              <span className={`rounded-full p-1 ${!isDark ? 'bg-paper' : ''}`}>
+                <Sun size={16} className="text-ink dark:text-muted-dark" />
+              </span>
+              <span className={`rounded-full p-1 ${isDark ? 'bg-paper-dark' : ''}`}>
+                <Moon size={16} className="text-muted dark:text-ink-dark" />
+              </span>
+            </button>
+          </Reveal>
+        </div>
       </nav>
 
       {/* Navigasi versi mobile */}

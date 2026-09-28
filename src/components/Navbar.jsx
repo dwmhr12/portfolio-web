@@ -28,7 +28,7 @@ const navLinks = [
 //   Kalau mau nama file dikontrol penuh, taruh file-nya di public/files/
 //   dan pakai path lokal (mis. '/files/portfolio.pdf') seperti sebelumnya.
 const PORTFOLIO_FILE_URL =
-  'https://drive.google.com/uc?export=download&id=15p6Yf8mcYxfZaJOdSPOG5r-_4pvP-A3R'
+  'https://drive.google.com/file/d/15p6Yf8mcYxfZaJOdSPOG5r-_4pvP-A3R/view?usp=sharing'
 const PORTFOLIO_FILE_NAME = 'Portfolio.pdf'
 
 export default function Navbar() {
